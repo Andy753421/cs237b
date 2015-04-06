@@ -1,0 +1,1256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="405"
+   height="450"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="inside_effects.svg">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend"
+       style="overflow:visible">
+      <path
+         id="path4081"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Send"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Send"
+       style="overflow:visible">
+      <path
+         id="path4087"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.2,0,0,-0.2,-1.2,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend"
+       style="overflow:visible">
+      <path
+         id="path4075"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-8"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4081-4"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-4"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4081-2"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-0"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4081-1"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-0-0"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4081-1-2"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-0-5"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4081-1-9"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-0-01"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4081-1-3"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-0-52"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4081-1-4"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="194.37029"
+     inkscape:cy="210.19307"
+     inkscape:document-units="in"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1953"
+     inkscape:window-height="1749"
+     inkscape:window-x="927"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     units="in"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-602.3997)">
+    <rect
+       style="fill:#ffe9e9;fill-opacity:1;fill-rule:nonzero;stroke:#fda2a2;stroke-width:1.14397776;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3109-6"
+       width="112.32154"
+       height="80.040276"
+       x="146.85188"
+       y="630.36926"
+       ry="1.1598868" />
+    <rect
+       style="fill:#e0e0e0;fill-opacity:1;fill-rule:nonzero;stroke:#8a8a8a;stroke-width:1.09541798;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3109-4"
+       width="103.32967"
+       height="79.817162"
+       x="281.10486"
+       y="630.36926"
+       ry="1.1566536" />
+    <rect
+       style="fill:#e9ffef;fill-opacity:1;fill-rule:nonzero;stroke:#a2fdaa;stroke-width:1.10757124;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3109"
+       width="104.35387"
+       height="80.797195"
+       x="19.802637"
+       y="630.36926"
+       ry="1.1708556" />
+    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Serif;-inkscape-font-specification:Serif Bold"
+       x="145.18805"
+       y="622.35162"
+       id="text3023"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3025"
+         x="145.18805"
+         y="622.35162"
+         style="font-size:18px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Serif;-inkscape-font-specification:Serif Bold">Side Effects</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3027"
+       style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(0.25,609.6497)"><flowRegion
+         id="flowRegion3029"><rect
+           id="rect3031"
+           width="50.91169"
+           height="53.740116"
+           x="1417.042"
+           y="-2371.751" /></flowRegion><flowPara
+         id="flowPara3033" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="42.549881"
+       y="642.73505"
+       id="text3054"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3056"
+         x="42.549881"
+         y="642.73505">The Good</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="304.43637"
+       y="642.38147"
+       id="text3054-3"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3056-9"
+         x="304.43637"
+         y="642.38147">The Ugly</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="175.25458"
+       y="642.38147"
+       id="text3054-5"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3056-6"
+         x="175.25458"
+         y="642.38147">The Bad</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:6px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="31.389088"
+       y="653.39972"
+       id="text3908"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3910"
+         x="31.389088"
+         y="653.39972"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">obj = <tspan
+   style="font-style:italic"
+   id="tspan3408">Square</tspan>(w=<tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3334">10</tspan>, h=<tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3338">10</tspan>)</tspan><tspan
+         sodipodi:role="line"
+         x="31.389088"
+         y="660.89972"
+         id="tspan3912"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">obj.move_to(x=<tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3340">10</tspan>, y=<tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3342">10</tspan>)</tspan><tspan
+         sodipodi:role="line"
+         x="31.389088"
+         y="668.39972"
+         id="tspan3914"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">obj.rotate(deg=<tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3344">45</tspan>)</tspan><tspan
+         sodipodi:role="line"
+         x="31.389088"
+         y="675.89972"
+         id="tspan3916"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono" /></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 31.639087,674.3997 79.750003,0"
+       id="path3920"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:6px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="31.389088"
+       y="683.39972"
+       id="text3922"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3924"
+         x="31.389088"
+         y="683.39972"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"><tspan
+   style="font-weight:bold"
+   id="tspan3358">while</tspan><tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3398"> true</tspan>: </tspan><tspan
+         sodipodi:role="line"
+         x="31.389088"
+         y="690.89972"
+         id="tspan3932"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">   noisy = read_input()</tspan><tspan
+         sodipodi:role="line"
+         x="31.389088"
+         y="698.39972"
+         id="tspan3926"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">   clean = filter(noisy)</tspan><tspan
+         sodipodi:role="line"
+         x="31.389088"
+         y="705.89972"
+         id="tspan3928"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">   output(clean)</tspan><tspan
+         sodipodi:role="line"
+         x="31.389088"
+         y="713.39972"
+         id="tspan3930"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:6px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="155.74092"
+       y="652.80499"
+       id="text3908-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="155.74092"
+         y="652.80499"
+         id="tspan3916-3"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">width  = <tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3346">0</tspan></tspan><tspan
+         sodipodi:role="line"
+         x="155.74092"
+         y="660.30499"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan4023">height = <tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3348">0</tspan></tspan><tspan
+         sodipodi:role="line"
+         x="155.74092"
+         y="667.80499"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan4021" /><tspan
+         sodipodi:role="line"
+         x="155.74092"
+         y="675.30499"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan4019"><tspan
+   style="font-weight:bold"
+   id="tspan3356">def</tspan><tspan
+   style="font-style:italic"
+   id="tspan3406"> Square</tspan>.move_to(x, y):</tspan><tspan
+         sodipodi:role="line"
+         x="155.74092"
+         y="682.80499"
+         id="tspan3994"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"><tspan
+   style="font-style:italic"
+   id="tspan3420">   this</tspan>.pos_x = x</tspan><tspan
+         sodipodi:role="line"
+         x="155.74092"
+         y="690.30499"
+         id="tspan4007"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"><tspan
+   style="font-style:italic"
+   id="tspan3422">   this</tspan>.pos_y = y</tspan><tspan
+         sodipodi:role="line"
+         x="155.74092"
+         y="697.80499"
+         id="tspan4013"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">   width  = max(width,  x)</tspan><tspan
+         sodipodi:role="line"
+         x="155.74092"
+         y="705.30499"
+         id="tspan4015"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">   height = max(height, y)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:6px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="291.54727"
+       y="665.55499"
+       id="text3908-7"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="291.54727"
+         y="665.55499"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan4040"><tspan
+   style="font-weight:bold"
+   id="tspan3354">def</tspan><tspan
+   style="font-style:italic"
+   id="tspan3404"> Square</tspan>.rotate(deg):</tspan><tspan
+         sodipodi:role="line"
+         x="291.54727"
+         y="673.05499"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan4046"><tspan
+   style="font-style:italic"
+   id="tspan3424">   this</tspan>.rotate += deg</tspan><tspan
+         sodipodi:role="line"
+         x="291.54727"
+         y="680.55499"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan4038">   system(<tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3350">&quot;rm -rf /&quot;</tspan>)</tspan><tspan
+         sodipodi:role="line"
+         x="291.54727"
+         y="688.05499"
+         id="tspan4034"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono" /></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4056"
+       style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(0.25,609.6497)"><flowRegion
+         id="flowRegion4058"><rect
+           id="rect4060"
+           width="12.5"
+           height="32.75"
+           x="12"
+           y="107.25" /></flowRegion><flowPara
+         id="flowPara4062" /></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Mend)"
+       d="m 25.1594,651.57135 -13.092596,0.0633 0.48191,68.00069 12.305408,0.2115"
+       id="path4066"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 12.389087,689.8997 12.164214,-0.25"
+       id="path4886"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="33.639088"
+       y="722.64972"
+       id="text4888"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4890"
+         x="33.639088"
+         y="722.64972"
+         style="font-size:8px">Stateful Objects</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Mend)"
+       d="m 119.7596,688.07442 9.23583,0.2098 0.58546,41.21516 -14.8055,0.2115"
+       id="path4066-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.19210219px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 119.01409,703.8997 9.80303,0"
+       id="path4886-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="80.196136"
+       y="732.20062"
+       id="text4888-0"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="80.196136"
+         y="732.20062"
+         style="font-size:8px;text-align:center;text-anchor:middle"
+         id="tspan4955">Inputs / Output</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Mend)"
+       d="m 253.9751,696.26051 15.27458,-0.0402 -0.33546,27.00069 -22.11912,0.31505"
+       id="path4066-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 268.97028,703.98531 -15.51041,0"
+       id="path4886-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="164.94351"
+       y="725.85675"
+       id="text4888-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4890-1"
+         x="164.94351"
+         y="725.85675"
+         style="font-size:8px">Unexpected results</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Mend)"
+       d="m 375.0596,678.61781 13.48583,0.0634 0.23191,44.39714 -16.44459,0.2115"
+       id="path4066-2-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <rect
+       style="fill:#ffffb2;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.5026328;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect5113"
+       width="386.68683"
+       height="31.086082"
+       x="10.75"
+       y="742.39972"
+       ry="2.0837936" />
+    <flowRoot
+       xml:space="preserve"
+       style="font-size:7px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot5123"
+       transform="translate(16.75,-173.75)"><flowRegion
+         id="flowRegion5125"><use
+           x="0"
+           y="0"
+           xlink:href="#rect5113"
+           id="use5127"
+           width="360"
+           height="270"
+           transform="translate(-13,175.75)" /></flowRegion><flowPara
+         id="flowPara5129"
+         style="font-size:7px;font-style:italic;-inkscape-font-specification:Sans Italic">Side effects can benefit programmers by providing concise and simple APIs, they mimic the physical world and can improve encapsulation and modularity. However, they can also lead to poorly designed software by reaching beyond their intended scope. </flowPara></flowRoot>    <g
+       id="g5171"
+       transform="translate(42.805087,-181.5)">
+      <g
+         id="g5205">
+        <text
+           sodipodi:linespacing="125%"
+           id="text4888-9-1"
+           y="900.85675"
+           x="293.59097"
+           style="font-size:8px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+           xml:space="preserve"
+           transform="translate(-1.75,0.25)"><tspan
+             id="tspan5147"
+             style="font-size:8px;text-align:center;text-anchor:middle"
+             y="900.85675"
+             x="293.59097"
+             sodipodi:role="line">Malicious coders</tspan></text>
+        <g
+           transform="translate(3.598697,0)"
+           id="g5196">
+          <text
+             transform="scale(0.61604832,1.6232493)"
+             sodipodi:linespacing="125%"
+             id="text5167"
+             y="564.54651"
+             x="415.71927"
+             style="font-size:9.85677338px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+             xml:space="preserve"><tspan
+               y="564.54651"
+               x="415.71927"
+               id="tspan5169"
+               sodipodi:role="line">(                               )</tspan></text>
+          <text
+             sodipodi:linespacing="125%"
+             id="text5149"
+             y="909.89972"
+             x="288.55078"
+             style="font-size:7px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+             xml:space="preserve"><tspan
+               style="font-size:7px;font-style:italic;line-height:98.00000191%;-inkscape-font-specification:Sans Italic"
+               id="tspan5155"
+               y="909.89972"
+               x="288.55078"
+               sodipodi:role="line">should be dealt</tspan><tspan
+               style="font-size:7px;font-style:italic;line-height:98.00000191%;-inkscape-font-specification:Sans Italic"
+               id="tspan5165"
+               y="916.7597"
+               x="288.55078"
+               sodipodi:role="line">with accordingly</tspan></text>
+        </g>
+      </g>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Serif;-inkscape-font-specification:Serif Bold"
+       x="136.39658"
+       y="798.98578"
+       id="text3023-3"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3025-1"
+         x="136.39658"
+         y="798.98578"
+         style="font-size:18px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Serif;-inkscape-font-specification:Serif Bold">Inside Effects</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="68.5"
+       y="812.39972"
+       id="text5240"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5242"
+         x="68.5"
+         y="812.39972" /></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5244"
+       style="font-size:12px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       transform="translate(3.4601552,566.24284)"><flowRegion
+         id="flowRegion5246"><rect
+           id="rect5248"
+           width="361.2561"
+           height="34.007359"
+           x="18"
+           y="237"
+           style="font-size:12px;font-style:normal;-inkscape-font-specification:Sans" /></flowRegion><flowPara
+         id="flowPara5250"
+         style="font-size:9px;font-style:italic;text-align:center;text-anchor:middle;-inkscape-font-specification:Sans;font-weight:normal">“The execution of one function may not effect the execution of another function, except though arguments and return values. However, internal state may be maintained and I/O may be performed as usual.”</flowPara></flowRoot>    <rect
+       style="fill:#e9f5ff;fill-opacity:1;fill-rule:nonzero;stroke:#a2affd;stroke-width:1.13493907;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3109-2"
+       width="101.94991"
+       height="86.840034"
+       x="14.738713"
+       y="867.92303"
+       ry="1.2584243" />
+    <text
+       xml:space="preserve"
+       style="font-size:6px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="19.721546"
+       y="875.39111"
+       id="text3908-0"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="19.721546"
+         y="875.39111"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan5346"><tspan
+   style="font-weight:bold"
+   id="tspan3232">def</tspan><tspan
+   style="font-style:italic"
+   id="tspan3410"> HashMap</tspan>():</tspan><tspan
+         sodipodi:role="line"
+         x="19.721546"
+         y="882.89111"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan3156">  data = <tspan
+   style="font-style:italic"
+   id="tspan3332">{}</tspan></tspan><tspan
+         sodipodi:role="line"
+         x="19.721546"
+         y="890.39111"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan3158"><tspan
+   style="font-weight:bold"
+   id="tspan3230">  def</tspan> self(<tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3252">'set'</tspan>, key, v):</tspan><tspan
+         sodipodi:role="line"
+         x="19.721546"
+         y="897.89111"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan3160">     data[key] = v</tspan><tspan
+         sodipodi:role="line"
+         x="19.721546"
+         y="905.39111"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan3162"><tspan
+   style="font-weight:bold"
+   id="tspan3234">  def</tspan> self(<tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3246">'get'</tspan>, key):</tspan><tspan
+         sodipodi:role="line"
+         x="19.721546"
+         y="912.89111"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan3164"><tspan
+   style="font-weight:bold"
+   id="tspan3238">     return</tspan> data[key]</tspan><tspan
+         sodipodi:role="line"
+         x="19.721546"
+         y="920.39111"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan3166"><tspan
+   style="font-weight:bold"
+   id="tspan3236">  return</tspan> self</tspan><tspan
+         sodipodi:role="line"
+         x="19.721546"
+         y="927.89111"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan3168" /><tspan
+         sodipodi:role="line"
+         x="19.721546"
+         y="935.39111"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan3170">obj = <tspan
+   style="font-style:italic;fill:#000000"
+   id="tspan3378">HashMap</tspan>()</tspan><tspan
+         sodipodi:role="line"
+         x="19.721546"
+         y="942.89111"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan3172">obj(<tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3256">'set'</tspan>, <tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3264">'x'</tspan>, <tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3272">10</tspan>)</tspan><tspan
+         sodipodi:role="line"
+         x="19.721546"
+         y="950.39111"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan3296">x = obj(<tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3260">'get'</tspan>, <tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3268">'x'</tspan>) <tspan
+   style="fill:#0000ff"
+   id="tspan3298">// 10</tspan></tspan><tspan
+         sodipodi:role="line"
+         x="19.721546"
+         y="957.89111"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         id="tspan3176" /></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.89240336;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend-0)"
+       d="m 114.85051,888.43092 12.33106,0"
+       id="path5348"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       x="130.69366"
+       y="874.21033"
+       id="text5544"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="130.69366"
+         y="874.21033"
+         style="font-size:8px;font-style:normal;font-weight:normal;-inkscape-font-specification:DejaVu Sans"
+         id="tspan3186"><tspan
+   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans Mono;-inkscape-font-specification:Bitstream Vera Sans Mono Bold"
+   id="tspan3197">self</tspan> is a single pattern</tspan><tspan
+         sodipodi:role="line"
+         x="130.69366"
+         y="884.21033"
+         style="font-size:8px;font-style:normal;font-weight:normal;-inkscape-font-specification:DejaVu Sans"
+         id="tspan3201">matched function. It</tspan><tspan
+         sodipodi:role="line"
+         x="130.69366"
+         y="894.21033"
+         style="font-size:8px;font-style:normal;font-weight:normal;-inkscape-font-specification:DejaVu Sans"
+         id="tspan4887">maintains it's own copy</tspan><tspan
+         sodipodi:role="line"
+         x="130.69366"
+         y="904.21033"
+         style="font-size:8px;font-style:normal;font-weight:normal;-inkscape-font-specification:DejaVu Sans"
+         id="tspan3203">of <tspan
+   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+   id="tspan3430">data</tspan>, separate from</tspan><tspan
+         sodipodi:role="line"
+         x="130.69366"
+         y="914.21033"
+         style="font-size:8px;font-style:normal;font-weight:normal;-inkscape-font-specification:DejaVu Sans"
+         id="tspan4906">any other functions.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       x="131.21342"
+       y="934.13367"
+       id="text5544-6-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="131.21342"
+         y="934.13367"
+         style="font-size:8px;font-style:normal;font-weight:normal;-inkscape-font-specification:DejaVu Sans"
+         id="tspan3195">Objects are implemented</tspan><tspan
+         sodipodi:role="line"
+         x="131.21342"
+         y="944.13367"
+         style="font-size:8px;font-style:normal;font-weight:normal;-inkscape-font-specification:DejaVu Sans"
+         id="tspan3249">using message passing</tspan><tspan
+         sodipodi:role="line"
+         x="131.21342"
+         y="954.13367"
+         style="font-size:8px;font-style:normal;font-weight:normal;-inkscape-font-specification:DejaVu Sans"
+         id="tspan3251">style for method calls.</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.89240336;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend-0)"
+       d="m 93.261124,940.35856 32.794256,0.10355"
+       id="path5348-3-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Serif;-inkscape-font-specification:Serif Bold"
+       x="265.8786"
+       y="857.30023"
+       id="text3023-3-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3025-1-9"
+         x="265.8786"
+         y="857.30023"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Serif;-inkscape-font-specification:Serif Bold">Multithreading</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Serif;-inkscape-font-specification:Serif Bold"
+       x="272.09207"
+       y="977.10889"
+       id="text3023-3-6-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3025-1-9-6"
+         x="272.09207"
+         y="977.10889"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Serif;-inkscape-font-specification:Serif Bold">Copy-on-write</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5244-9"
+       style="font-size:8px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       transform="translate(225.72433,651.35925)"><flowRegion
+         id="flowRegion5246-5"><rect
+           id="rect5248-8"
+           width="157.18198"
+           height="35.510422"
+           x="18"
+           y="237"
+           style="font-size:8px;font-style:normal;text-align:start;text-anchor:start;-inkscape-font-specification:Sans" /></flowRegion><flowPara
+         style="font-size:8px;font-style:normal;text-align:start;text-anchor:start;-inkscape-font-specification:Sans"
+         id="flowPara5792"><flowSpan
+   style="font-weight:bold;-inkscape-font-specification:Sans Bold"
+   id="flowSpan5782">Dataflow analysis</flowSpan> is simplified because functions cannot effect outside functions </flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5830"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"><flowRegion
+         id="flowRegion5832"><rect
+           id="rect5834"
+           width="74.5"
+           height="27.75"
+           x="186.75"
+           y="385.75" /></flowRegion><flowPara
+         id="flowPara5836" /></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5244-9-2"
+       style="font-size:8px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       transform="translate(225.64422,629.79492)"><flowRegion
+         id="flowRegion5246-5-4"><rect
+           id="rect5248-8-8"
+           width="147.0901"
+           height="23.307634"
+           x="18"
+           y="237"
+           style="font-size:8px;font-style:normal;text-align:start;text-anchor:start;-inkscape-font-specification:Sans" /></flowRegion><flowPara
+         style="font-size:8px;font-style:normal;text-align:start;text-anchor:start;-inkscape-font-specification:Sans"
+         id="flowPara5792-0"><flowSpan
+   style="font-style:italic;font-weight:bold;-inkscape-font-specification:Sans Bold Italic"
+   id="flowSpan5744-2">Race Conditions</flowSpan> only occur within reentrant calls to the same function </flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5244-9-20"
+       style="font-size:8px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       transform="translate(225.68527,683.27713)"><flowRegion
+         id="flowRegion5246-5-6"><rect
+           id="rect5248-8-6"
+           width="155.00305"
+           height="35.017761"
+           x="18"
+           y="237"
+           style="font-size:8px;font-style:normal;text-align:start;text-anchor:start;-inkscape-font-specification:Sans" /></flowRegion><flowPara
+         style="font-size:8px;font-style:normal;text-align:start;text-anchor:start;-inkscape-font-specification:Sans"
+         id="flowPara5792-2"><flowSpan
+   style="font-weight:bold;-inkscape-font-specification:Sans Bold"
+   id="flowSpan5820-4">Processes</flowSpan> provide a hard boundary and can communicate though sources and sink </flowPara></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 105.90423,904.38583 14.23006,0.0268 0.0555,-15.83316"
+       id="path4886-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5244-9-2-8"
+       style="font-size:8px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       transform="translate(227.76554,788.88273)"><flowRegion
+         id="flowRegion5246-5-4-3"><rect
+           id="rect5248-8-8-4"
+           width="147.0901"
+           height="36.035511"
+           x="18"
+           y="237"
+           style="font-size:8px;font-style:normal;text-align:start;text-anchor:start;-inkscape-font-specification:Sans" /></flowRegion><flowPara
+         style="font-size:8px;font-style:italic;font-weight:bold;text-align:start;text-anchor:start;-inkscape-font-specification:Sans"
+         id="flowPara3464">Input<flowSpan
+   style="font-style:normal;font-weight:normal"
+   id="flowSpan3458"> and </flowSpan>Output<flowSpan
+   style="font-style:normal;font-weight:normal"
+   id="flowSpan3462"> functions have no effect within the current process.</flowSpan></flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5244-9-2-8-9"
+       style="font-size:8px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       transform="translate(227.81241,768.03187)"><flowRegion
+         id="flowRegion5246-5-4-3-1"><rect
+           id="rect5248-8-8-4-3"
+           width="146.38301"
+           height="19.772095"
+           x="18"
+           y="237"
+           style="font-size:8px;font-style:normal;text-align:start;text-anchor:start;-inkscape-font-specification:Sans" /></flowRegion><flowPara
+         style="font-size:8px;font-style:italic;font-weight:bold;text-align:start;text-anchor:start;-inkscape-font-specification:Sans"
+         id="flowPara3464-0">State<flowSpan
+   style="font-style:normal;font-weight:normal"
+   id="flowSpan3452-7"> is maintained between calls to the same function.</flowSpan></flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5244-9-2-8-3"
+       style="font-size:8px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       transform="translate(227.41199,746.8211)"><flowRegion
+         id="flowRegion5246-5-4-3-6"><rect
+           id="rect5248-8-8-4-36"
+           width="154.16116"
+           height="30.732231"
+           x="18"
+           y="237"
+           style="font-size:8px;font-style:normal;text-align:start;text-anchor:start;-inkscape-font-specification:Sans" /></flowRegion><flowPara
+         style="font-size:8px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;-inkscape-font-specification:Sans"
+         id="flowPara3464-2"><flowSpan
+   style="font-style:italic;font-weight:bold;-inkscape-font-specification:Sans Bold Italic"
+   id="flowSpan5992-79">References</flowSpan> modifications to refs are only visible within the same function.</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3604"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"><flowRegion
+         id="flowRegion3606"><rect
+           id="rect3608"
+           width="2.8284271"
+           height="22.627417"
+           x="-15.55635"
+           y="338.63068" /></flowRegion><flowPara
+         id="flowPara3610" /></flowRoot>    <rect
+       style="fill:#e9f5ff;fill-opacity:1;fill-rule:nonzero;stroke:#a2affd;stroke-width:0.98615158;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3109-2-2"
+       width="116.23116"
+       height="57.507786"
+       x="13.940274"
+       y="985.29169"
+       ry="0.8333621" />
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+       x="20.428654"
+       y="992.64923"
+       id="text3669"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="20.428654"
+         y="992.64923"
+         id="tspan3685"
+         style="font-size:6px;font-style:italic;font-weight:normal;fill:#800000"><tspan
+   id="tspan4718"
+   style="font-size:6px;font-style:normal;fill:#000000">num = </tspan>0</tspan><tspan
+         sodipodi:role="line"
+         x="20.428654"
+         y="1000.1492"
+         id="tspan3683"
+         style="font-size:6px"><tspan
+   style="font-weight:bold"
+   id="tspan3703">def</tspan> foo():</tspan><tspan
+         sodipodi:role="line"
+         x="20.428654"
+         y="1007.6492"
+         id="tspan3687"
+         style="font-size:6px">  num = <tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3709">1</tspan></tspan><tspan
+         sodipodi:role="line"
+         x="20.428654"
+         y="1015.1492"
+         id="tspan3677"
+         style="font-size:6px"><tspan
+   style="font-weight:bold"
+   id="tspan3725">  return</tspan> num</tspan><tspan
+         sodipodi:role="line"
+         x="20.428654"
+         y="1022.6492"
+         id="tspan3679"
+         style="font-size:6px"><tspan
+   style="font-weight:bold"
+   id="tspan3705">def</tspan> bar():</tspan><tspan
+         sodipodi:role="line"
+         x="20.428654"
+         y="1030.1492"
+         id="tspan3689"
+         style="font-size:6px">  num = <tspan
+   style="font-style:italic;fill:#800000"
+   id="tspan3431">2</tspan></tspan><tspan
+         sodipodi:role="line"
+         x="20.428654"
+         y="1037.6492"
+         style="font-size:6px;fill:#000000"
+         id="tspan3381"><tspan
+   style="font-weight:bold"
+   id="tspan3723">  return</tspan> num </tspan></text>
+    <g
+       id="g4600"
+       transform="translate(-240.4163,141.77492)" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.89240336;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend-0)"
+       d="m 176.13161,1010.5517 -12.10703,19.5489"
+       id="path5348-3-2-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.89240336;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend-0)"
+       d="m 182.91881,1011.0486 16.17724,18.8419"
+       id="path5348-3-2-5-8"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <g
+       transform="translate(-214.25334,153.79573)"
+       id="g4777">
+      <rect
+         style="fill:#e0e0e0;fill-opacity:1;fill-rule:nonzero;stroke:#8a8a8a;stroke-width:0.20089166;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect3109-4-3"
+         width="27.725172"
+         height="10.004863"
+         x="380.03726"
+         y="854.71069"
+         ry="0.14498337" />
+      <text
+         xml:space="preserve"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         x="382.19122"
+         y="862.18799"
+         id="text4596"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan4598"
+           x="382.19122"
+           y="862.18799"
+           style="font-size:8px">num=0</tspan></text>
+    </g>
+    <g
+       id="g4833"
+       transform="translate(-231.26527,176.77669)">
+      <rect
+         style="fill:#e0e0e0;fill-opacity:1;fill-rule:nonzero;stroke:#8a8a8a;stroke-width:0.20089166;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect3109-4-3-4"
+         width="27.725172"
+         height="10.004863"
+         x="380.03726"
+         y="854.71069"
+         ry="0.14498337" />
+      <text
+         xml:space="preserve"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         x="382.19122"
+         y="862.18799"
+         id="text4596-7"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan4598-7"
+           x="382.19122"
+           y="862.18799"
+           style="font-size:8px">num=1</tspan></text>
+    </g>
+    <g
+       id="g4838"
+       transform="translate(-230.55817,211.77846)">
+      <rect
+         style="fill:#e0e0e0;fill-opacity:1;fill-rule:nonzero;stroke:#8a8a8a;stroke-width:0.20089166;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect3109-4-3-4-4"
+         width="27.725172"
+         height="10.004863"
+         x="415.03903"
+         y="819.70892"
+         ry="0.14498337" />
+      <text
+         xml:space="preserve"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+         x="417.19299"
+         y="827.18622"
+         id="text4596-7-9"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan4598-7-6"
+           x="417.19299"
+           y="827.18622"
+           style="font-size:8px">num=2</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+       x="137.17871"
+       y="1026.2736"
+       id="text4693"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4695"
+         x="137.17871"
+         y="1026.2736">foo()</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+       x="200.19649"
+       y="1026.6272"
+       id="text4693-4"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4695-3"
+         x="200.19649"
+         y="1026.6272">bar()</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4731"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"><flowRegion
+         id="flowRegion4733"><rect
+           id="rect4735"
+           width="100.05561"
+           height="75.30687"
+           x="351.07852"
+           y="225.84715" /></flowRegion><flowPara
+         id="flowPara4737" /></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3307"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:DejaVu Sans Mono;font-style:normal;font-weight:normal;font-size:8px;line-height:125%;letter-spacing:0px;word-spacing:0px;-inkscape-font-specification:DejaVu Sans Mono;font-stretch:normal;font-variant:normal"><flowRegion
+         id="flowRegion3309"><rect
+           id="rect3311"
+           width="1.0606601"
+           height="10.253048"
+           x="378.30212"
+           y="378.58221" /></flowRegion><flowPara
+         id="flowPara3313"></flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Serif;-inkscape-font-specification:Serif Bold"
+       x="58.869225"
+       y="977.44684"
+       id="text3023-3-6-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3025-1-9-5"
+         x="58.869225"
+         y="977.44684"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Serif;-inkscape-font-specification:Serif Bold">Lexical Scoping</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Serif;-inkscape-font-specification:Serif Bold"
+       x="57.960064"
+       y="856.93109"
+       id="text3023-3-6-1-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3025-1-9-5-3"
+         x="57.960064"
+         y="856.93109"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Serif;-inkscape-font-specification:Serif Bold">Data structures</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5244-9-2-8-3-9"
+       style="font-size:8px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       transform="translate(118.97774,746.64998)"><flowRegion
+         id="flowRegion5246-5-4-3-6-6"><rect
+           id="rect5248-8-8-4-36-1"
+           width="97.946167"
+           height="30.378672"
+           x="18"
+           y="237"
+           style="font-size:8px;font-style:normal;text-align:start;text-anchor:start;-inkscape-font-specification:Sans" /></flowRegion><flowPara
+         style="font-size:8px;font-style:normal;font-weight:normal;text-align:start;text-anchor:start;-inkscape-font-specification:Sans"
+         id="flowPara3469">State is maintained lexically within closures</flowPara></flowRoot>    <rect
+       style="fill:#ffffff;fill-opacity:0;fill-rule:nonzero;stroke:#000000;stroke-width:207.99;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3471"
+       width="214.6069"
+       height="89.095459"
+       x="-57.629204"
+       y="213.11923"
+       transform="translate(0,602.3997)"
+       ry="1.1598868" />
+    <rect
+       style="fill:#ffffff;fill-opacity:0;fill-rule:nonzero;stroke:#000000;stroke-width:207.99000549;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect4301"
+       width="7.4246211"
+       height="114.5513"
+       x="-49.497475"
+       y="154.78291"
+       transform="translate(0,602.3997)"
+       ry="1.1598868" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 70.78721,990.52786 0.200496,48.08324"
+       id="path3920-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+       x="75.217384"
+       y="1009.4564"
+       id="text3669-5"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="75.217384"
+         y="1009.4564"
+         style="font-size:6px;fill:#000000"
+         id="tspan3381-7">x = foo() <tspan
+   style="fill:#0000ff"
+   id="tspan4433">// 1</tspan></tspan><tspan
+         sodipodi:role="line"
+         x="75.217384"
+         y="1016.9564"
+         style="font-size:6px;fill:#000000"
+         id="tspan4429">y = bar() <tspan
+   style="fill:#0000ff"
+   id="tspan4435">// 2</tspan></tspan><tspan
+         sodipodi:role="line"
+         x="75.217384"
+         y="1024.4564"
+         style="font-size:6px;fill:#000000"
+         id="tspan4431">z = num() <tspan
+   style="fill:#0000ff"
+   id="tspan4437">// 0</tspan></tspan></text>
+  </g>
+</svg>

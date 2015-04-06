@@ -1,0 +1,193 @@
+Disallow side effects that are really on the side.
+
+Some side effects are not so bad.
+
+  - object oriented programming
+  - graphics and scene graphs
+  - digital signal processing
+
+Good Idea
+
+  State:
+    > store = new_hash_table()
+    > store.set('key', 1);
+    > store.get('key');
+
+    > obj = new_square(w=10, h=10)
+    > obj.move_to(x=10, y=10)
+    > obj.rotate(deg=45)
+
+    > filter = moving_average(n=10)
+    > while true
+    >   noisy = read_input()
+    >   clean = filter(noisy)
+    >   output(clean)
+
+    filter_a(1) ->  1
+    filter_a(2) ->  1.5
+    filter_a(3) ->  2
+    filter_a(3) ->  2.3
+
+  Sinks:
+    > printf("Hello, World\n");
+    > console.log("Hello, World\n");
+
+  Sources:
+    > line = read_line()
+
+Bad Idea
+
+    > obj = new_square(width=10, height=10)
+    > obj.move_to(x=10, y=10)
+    > obj.rotate(degrees=45)
+    > // not at move_to x=20, y=20
+
+Summary
+
+  A function call should not effect future calls
+  other functions.
+
+  A function call should only effect future
+  calls to the same function, or possibly calls
+  to related functions?
+
+Solution
+
+  Read only references
+
+    > def counter(x : int ref)
+    >   def inc()
+    >     x += 1
+    >   def get()
+    >     x
+    >   return { inc: inc,
+    >            get: get }
+    >
+    > num : int ref
+    > num = ref 0
+    >
+    > ctr1 = counter(num)
+    > ctr2 = counter(num)
+    >
+    > ctr1.inc()
+    > ctr2.inc()
+    >
+    > ctr1.get() -- 1
+    > ctr2.get() -- 1
+
+  Examples
+
+    def main():
+      print("Starting")
+      read_input(2);
+
+
+Extension
+
+  Processes
+
+    Side effects are limited to processes,
+    so communication between processes can
+    be implemented using sources and sinks.
+
+  Race conditions
+
+    Disallowed by now side effects, constrained
+    to the same same function by cow refs.
+
+Review
+------
+I think this is a very good pattern to use in general,
+especially in systems that have complex interactions, and
+where the semantics of those interactions change depending
+on state.
+
+But I'm having some trouble wrapping my head around what
+kind of benefits inside effects get over pure (side
+effect-free) functions. For example, to me a "sink" function
+looks like a regular function call and a "source" function
+feels like `let` in ML. Are "source" and "sink" more
+expressive than that? I do like the pipelining pattern that
+this enforces, but that almost feels like a side issue. For
+example, we could easily break out of the pipeline pattern
+by just defining a class which has a bunch of sink functions
+that mutate its internal state.
+
+> I may have gotten off on the wrong foot with sources and
+> sinks.. They're not as important as they appear in my
+> draft one pager. I was thinning of useful types of side
+> effects, "state" is an obvious one, where a function
+> stores some internal data for later one. "Sources" and
+> "sinks" came up when I was thinking about I/O. Usually
+> reading input and writing output is considered a side
+> effect, for my design they allowed as long as they don't
+> effect other function calls.
+>
+> Sinks are things like write() and printf(). They have some
+> effect on the outside world, but no effect on the
+> execution of the current process itself. More generally,
+> it would be any function where they arguments are used but
+> calling the function appears to have no effect on the
+> process. I can't really think of any useful examples
+> besides I/O though. Think of a kitchen sink, you can flush
+> water down it and it has some effect on the world, but as
+> far as you care, the water is gone and it makes no
+> difference to you what effects it has outside.
+>
+> Sources are the opposite, things like read() and scanf().
+> They're producing some data, data but there's no way to
+> control the data that is being produced. This isn't really
+> related to side effects, but possibly related to pure
+> functions. Things like random_int() would be called
+> 'source functions' also. They might have some internal
+> state, but there's no way to change or modify the internal
+> state (assuming random_seed() doesn't exist).
+> 
+> That being said, those were just examples and terminology,
+> I had not intended to have any special syntax or semantics
+> for "source" or "sink" functions.
+
+In your "Good" example -- if `obj.move_to` and `obj.rotate`
+are sink functions (because they consume data, changing the
+state of `Square`), then there must be some source function
+to get some useful data from `Square`. But wouldn't this
+violate the "inside effects" contract? What would a useful
+data structure look like if it only had inside effects?
+
+> That's a good questions. I thought of 'objects with state'
+> as an example of where side effects have been useful to me
+> in the past. At first I thought of "stateful" functions
+> (like the filter example) and then thought, maybe in an
+> object oriented language, there would be some special
+> cases for objects. You could could say a function can't
+> effect outside functions, unless it's a method, then it
+> can effect other methods of the same object also.
+>
+> I thought about it a little further and I think there's a
+> simpler way to handle it though. If you think of objects
+> as closures, and methods as message passing seems easier.
+>
+> def HashMap():
+>   var list = {}
+>   return function(args):
+>      match args with:
+>        ('set', key, val) -> list[key] = val
+>        ('get', key) -> return list[key]
+>
+> /* alternately */
+> def HashMap():
+>   var list = {}
+>   def self('set', key, val):
+>      list[key] = val
+>   def self('get', key):
+>      return list[key]
+>   return self
+>
+> obj = HashMap()
+> obj('set', 'x', 10)
+> obj('get', 'x') // -> 10
+>
+> Here, the 'self' function would have it's own copy of the
+> list that it can use to keep state.
+
+# vim: tw=60
