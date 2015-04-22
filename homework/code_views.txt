@@ -1,0 +1,5 @@
+I need to think of some examples for the second draft, I envision the tagging
+and views implemented though and IDE or tool so there's no special syntax for
+specifying a tag, otherwise things will get out of sync too easily. I think it
+could be applied to a wide range of languages, but maybe something like object
+oriented languages would be the most useful.
