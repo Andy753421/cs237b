@@ -1,0 +1,9 @@
+Code templates:
+
+  - Simmilar to abstract classes/interfaces, but do more
+  - Don't just describe [? -> class] but aslo [class -> ?]
+    - behavior in addition to abilities
+  - Allow syncronization between code 
+  - Styalistic and semantic
+
+Interfaces with intent
