@@ -7,3 +7,42 @@ Code templates:
   - Styalistic and semantic
 
 Interfaces with intent
+
+Feedback:
+
+  - So I think that the important part of this idea is that
+    objects define not only the messages sent to them but
+    also the messages that they have to send.  I think a
+    better example would be one in which an abstract class
+    defines (but doesn't implement) a method that it expects
+    its subclasses to implement and then show 3 subclasses,
+    two of which do the required call maybe very differently
+    and one which fails to do the required call.
+
+Presentation Notes:
+
+  - "calls UI.add" might be too implementation specific,
+    some way to be more flexible
+
+  - make calls more than just a list of functions to be
+    called, but also specify, stuff like call 0 or 1 times,
+    or calls it n times
+
+  - Make the comments more flexible, maybe have variables in
+    the comments
+
+  - If you are forcing comments to be the same, it should be
+    automated
+
+  - Could also have a way to append to comments with more
+    specific information
+
+  - Everything in this idea that can be automated, should be
+    automated
+
+  - Flesh out behavioral part to make it more strict (how
+    much stuff can you specify)
+
+  - Work this into a unit testing framework, so that by
+    implementing a template, you would get unit tests for
+    free (or at least unit test stubs)
