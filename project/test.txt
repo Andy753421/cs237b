@@ -1,0 +1,73 @@
+
+	i = 0
+	while { i | i < 10 } do {
+		x, y | x + y
+	}
+
+	i | while [< 0] [ i ++ ]
+
+	# Conditionals
+	def true(then, else):
+		then()
+	def false(then, else):
+		else()
+	def if(cond, then, else):
+		cond(then, else)
+
+	let test = if true { "hello" } { "world" }
+
+	# Iterators - for
+	typ for('c, {'c|Bool}, {'c|'c}, {'b,'c|'b}, 'b): 'b
+	def for(init, cond, step, body, state=null):
+		if cond(state)
+			{ let state = body(state)
+			  let next  = step(init)
+			  for(next, cond, step, body, state) }
+			{ state }
+
+	while 0, <10, +1, +, 0
+	while 0, {i|i<10}, {i|i+1}, {s,i|s+i}, 0
+
+	# Iterators - each
+	typ for(Maybe 'c, {'r}): 'r
+	def for(iter, body):
+		match iter():
+			{ Some x | body(x) }
+			{ None   | }
+
+	def range(lo,hi):
+		def iter():
+			let out = if lo <= hi:
+				{ Some cur }
+				{ None     }
+			let lo  = lo+1
+			out
+
+	def ints(start=0):
+		def iter():
+			let out   = start
+			let start = start +1
+			out
+
+	def fib():
+		let a = 0
+		let b = 1
+		def iter():
+			let o = a
+			let a = b
+			let b = o + b
+			o
+
+	for range(1,10) as i:
+		print i
+
+	map range(1,10) as i:
+		i + 1
+
+
+def while(cond, func):
+	if ( cond )
+		func()
+	while(cond, func);
+
+# vim: ft=inside

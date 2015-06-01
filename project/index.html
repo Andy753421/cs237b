@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>Inside Effects</title>
+		<link href="style.css" rel="stylesheet" type="text/css" />
+		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+		<script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript" src="../../../src/ohm/dist/ohm.js"></script>
+		<script type="text/ohm-js">
+			Inside {
+			  Exp    = Stmt  | Seq
+				 | Cmp   | Add | Mul | Pow
+				 | Un    | Gr
+				 | ident | number
+
+			  Stmt   = "fun" "(" ident ")" Exp  -- fun
+			         | "let" ident "=" Exp      -- let
+
+			  Seq    = Exp ";"  Exp             -- seq
+
+			  Or     = Exp "||" Exp             -- or
+
+			  And    = Exp "&&" Exp             -- and
+
+			  Eq     = Exp "==" Exp             -- eq
+			         | Exp "!=" Exp             -- ne
+
+			  Cmp    = Exp ">"  Exp             -- gt
+			         | Exp "<"  Exp             -- lt
+			         | Exp ">=" Exp             -- ge
+			         | Exp "<=" Exp             -- le
+
+			  Add    = Exp "+"  Exp             -- add
+			         | Exp "-"  Exp             -- sub
+
+			  Mul    = Exp "*"  Exp             -- mul
+			         | Exp "/"  Exp             -- div
+
+			  Pow    = Exp "^"  Exp             -- pow
+
+			  Un     = "+" Exp                  -- plus
+			         | "-" Exp                  -- minus
+			         | "!" Exp                  -- not
+
+			  Gr     = "(" Exp ")"              -- paren
+
+			  ident  = letter alnum*
+
+			  number = digit* "." digit+        -- fract
+			         | digit+                   -- whole
+			}
+		</script>
+	</head>
+	<body>
+		<h1>Syntax</h1>
+		<script src="interp.js">
+			1 * 2 + 3 / 4
+		</script>
+		<!--
+		<script src="interp.js">
+			i = 0
+			while { i < 10 } do { x, y | x + y }
+
+			def while(cond, func):
+				if ( cond )
+					func()
+				while(cond, func);
+		</script>
+		-->
+	</body>
+</html>
