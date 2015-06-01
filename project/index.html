@@ -5,7 +5,7 @@
 		<title>Inside Effects</title>
 		<link href="style.css" rel="stylesheet" type="text/css" />
 		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-		<script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript" src="util.js"></script>
 		<script type="text/javascript" src="../../../src/ohm/dist/ohm.js"></script>
 		<script type="text/ohm-js">
 			Inside {
@@ -36,6 +36,7 @@
 
 			  Mul    = Mul "*"  Pow             -- mul
 			         | Mul "/"  Pow             -- div
+			         | Mul "%"  Pow             -- mod
 			         | Pow
 
 			  Pow    = Pow "^"  Un              -- pow
@@ -50,13 +51,13 @@
 			         | Stmt "(" ")"             -- call
 			         | Stmt
 
-			  Stmt   = "fun" ident* "->" Exp    -- fun
-			         | "let" ident  "="  Exp    -- let
+			  Stmt   = "fun" ident* "->" Or     -- fun
+			         | "set" ident  "="  Or     -- set
 			         | Pri  
 
 			  Pri    = "(" Exp ")"              -- paren
-			         | ident
-			         | number
+			         | ident                    -- var
+			         | number                   -- num
 
 			  ident  = letter alnum*
 
@@ -67,16 +68,17 @@
 	</head>
 	<body>
 		<h1>Syntax</h1>
-		<script src="interp.js">
-			let x = fun n -> n + 1
+		<script src="lang.js">
+			set x = fun n -> n + 1;
+			x(3)
 		</script>
 		<!--
-		<script src="interp.js">
+		<script src="lang.js">
 			1 * 2 + 3 / 4
 		</script>
 		-->
 		<!--
-		<script src="interp.js">
+		<script src="lang.js">
 			i = 0
 			while { i < 10 } do { x, y | x + y }
 
