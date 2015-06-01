@@ -81,27 +81,27 @@ function call(closure, args, env) {
 	var params = closure[1];
 	var fexpr  = closure[2];
 	var fenv   = closure[3];
-	console.log("call: " + JSON.stringify(params));
+	console.log('call:   ['+params+']['+fexpr+']');
+	console.log('        ' +JSON.stringify(args));
+	console.log('        ' +JSON.stringify(fenv));
 	if (args.length != params.length)
 		throw 'wrong number of arguments';
 	for (var i = 0; i < args.length; i++)
 		fenv[params[i]] = interp(args[i], env);
-	for (var i in fenv)
-		if (fenv[i] == 'self')
-			fenv[i] = closure;
+	//for (var i in fenv)
+	//	if (fenv[i] == i)
+	//		fenv[i] = closure;
 	return interp(fexpr, fenv)
 }
 
-function setrec(name, val, env) {
-	if (typeof val == 'object' && val[0] == 'closure') {
-		val[3] = Object.create(env)
-		val[3][name] = 'self';
-	}
-	console.log('name: ' + JSON.stringify(name)),
-	console.log('env:  ' + JSON.stringify(env)),
-	console.log('val:  ' + JSON.stringify(val)),
-	env[name] = val;
-	return val;
+function clone(obj) {
+	var out = {};
+	for (var i in obj)
+		if (typeof obj[i] == "object")
+			out[i] = clone(obj[i]);
+		else
+			out[i] = obj[i];
+	return out;
 }
 
 function interp(node, env) {
@@ -115,7 +115,8 @@ function interp(node, env) {
 	var v = param(node, env, ['number', 'boolean']);
 	var f = param(node, env, ['closure']);
 
-	console.log('interp: ' + node[0]);
+	console.log('interp: ' + node);
+	console.log('        ' + JSON.stringify(env));
 	switch (node[0]) {
 		case 'seq':  return e(1) ,  e(2)
 
@@ -144,13 +145,11 @@ function interp(node, env) {
 
 		case 'call': return call(f(1), node[2], env)
 
-		case 'fun':  return ['closure', node[1], node[2], env]
-		case 'set':  return setrec(node[1], e(2), env)
+		case 'fun':  return ['closure', node[1], node[2], clone(env)]
+		case 'set':  return env[node[1]] = e(2)
 
-		case 'var':  return console.log('var: '+node[1]+'->'+
-					        JSON.stringify(env[node[1]])),
-			            env[node[1]];
-		case 'num':  return node[1];
+		case 'var':  return env[node[1]]
+		case 'num':  return node[1]
 
 		default:     throw  "Unknown node: " + JSON.stringify(node[0])
 	}

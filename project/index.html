@@ -68,13 +68,33 @@
 	</head>
 	<body>
 		<h1>Syntax</h1>
+		<!--
 		<script src="lang.js">
-			set x = fun n -> n + 1;
-			x(3)
+			set x = 1;
+			set f = fun -> set x = x + 1;
+			f ();
+			x
+		</script>
+		-->
+		<!--
+		<script src="lang.js">
+			set a = 1;
+			set b = fun n -> n + 1
+		</script>
+		-->
+		<script src="lang.js">
+			set ctr = fun n ->
+				fun -> set n = n + 1;
+			set c1 = ctr 10;
+			set c2 = ctr 20;
+			c1 ();
+			c1 ();
+			c2 ()
 		</script>
 		<!--
 		<script src="lang.js">
-			1 * 2 + 3 / 4
+			set x = fun n -> n + 1;
+			x(3)
 		</script>
 		-->
 		<!--
