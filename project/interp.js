@@ -20,9 +20,6 @@ function init() {
 
 	/* Initialize interpreter */
 	output = grammar.semantics().addOperation('run', {
-		Stmt_fun:  function(_,_,a,_,b) { return [ 'fun',   a.run(), b.run() ] },
-		Stmt_let:  function(_,i,_,v)   { return [ 'let',   i.run(), v.run() ] },
-                                                                   
 		Seq_seq:   function(x,_,y)     { return [ 'seq',   x.run(), y.run() ] },
 
 		Or_or:     function(x,_,y)     { return [ 'or',    x.run(), y.run() ] },
@@ -44,16 +41,23 @@ function init() {
 
 		Pow_pow:   function(x,op,y)    { return [ 'pow',   x.run(), y.run() ] },
 
-		Un_plus:   function(op,e)      { return [ 'plus',  e.run()          ] },
-		Un_minus:  function(op,e)      { return [ 'minus', e.run()          ] },
+		Un_pos:    function(op,e)      { return [ 'pos',   e.run()          ] },
+		Un_neg:    function(op,e)      { return [ 'neg',   e.run()          ] },
 		Un_not:    function(op,e)      { return [ 'not',   e.run()          ] },
 
-	        Gr_paren:  function(_,e,_)     { return e.run()                       },
+		Call_args: function(f,a)       { return [ 'call',  f.run(), a.run() ] },
+		Call_call: function(f,_,_)     { return [ 'call',  f.run(), []      ] },
+
+		Stmt_fun:  function(_,a,_,b)   { return [ 'fun',   a.run(), b.run() ] },
+		Stmt_let:  function(_,i,_,v)   { return [ 'let',   i.run(), v.run() ] },
+
+		Pri_paren: function(_,e,_)     { return e.run()                       },
                                                                                       
 		ident:     function(_,_)       { return this.interval.contents        },
 		number:    function(_)         { return parseFloat(this.interval.contents) },
 
-		_default: ohm.actions.passThrough
+		_many:     ohm.actions.makeArray,
+		_default:  ohm.actions.passThrough
 	});
 }
 
