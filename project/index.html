@@ -6,13 +6,13 @@
 		<link href="style.css" rel="stylesheet" type="text/css" />
 		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 		<script type="text/javascript" src="util.js"></script>
-		<script type="text/javascript" src="../../../src/ohm/dist/ohm.js"></script>
+		<script type="text/javascript" src="embed.js"></script>
+		<script type="text/javascript" src="ohm.js"></script>
 		<script type="text/ohm-js">
 			Inside {
-			  Exp    = Seq 
+			  Exp    = Seq+                     -- seq
 
-			  Seq    = Seq ";"  Or              -- seq
-			         | Or
+			  Seq    = Or  ";"                  -- seq
 
 			  Or     = Or  "||" And             -- or
 			         | And
@@ -43,9 +43,9 @@
 			         | Un
 
 			  Un     = "+" Un                   -- pos
-			         | "-" Un                   -- neg  
+			         | "-" Un                   -- neg
 			         | "!" Un                   -- not
-			         | Call 
+			         | Call
 
 			  Call   = Stmt Pri+                -- args
 			         | Stmt "(" ")"             -- call
@@ -53,60 +53,126 @@
 
 			  Stmt   = "fun" ident* "->" Or     -- fun
 			         | "set" ident  "="  Or     -- set
-			         | Pri  
+			         | Pri
 
-			  Pri    = "(" Exp ")"              -- paren
+			  Pri    = "(" Or  ")"              -- paren
+			         | "{" Exp "}"              -- brace
 			         | ident                    -- var
 			         | number                   -- num
+			         | string                   -- str
 
 			  ident  = letter alnum*
 
 			  number = digit* "." digit+        -- fract
 			         | digit+                   -- whole
+
+			  string = "\"" char* "\""
+
+			  char   = escape
+			         | ~"\"" ~"\n" _
+
+			  escape = "\\x" hexDigit hexDigit                    -- hexEscape
+			         | "\\u" hexDigit hexDigit hexDigit hexDigit  -- unicodeEscape
+			         | "\\" _                                     -- escape
 			}
 		</script>
 	</head>
 	<body>
-		<h1>Syntax</h1>
-		<!--
+		<h1>Basics</h1>
 		<script src="lang.js">
-			set x = 1;
-			set f = fun -> set x = x + 1;
-			f ();
-			x
+			# Hello, World
+			print("hello: " + 123);
+
+			# Simple functions
+			set num = 1;
+			set inc = fun -> set num = num + 1;
+
+			print("inc:  " + inc());
+			print("inc:  " + inc());
+			print("num:  " + num);
 		</script>
-		-->
-		<!--
-		<script src="lang.js">
-			set a = 1;
-			set b = fun n -> n + 1
-		</script>
-		-->
+
+		<h1>Counters</h1>
 		<script src="lang.js">
 			set ctr = fun n ->
 				fun -> set n = n + 1;
 			set c1 = ctr 10;
 			set c2 = ctr 20;
-			c1 ();
-			c1 ();
-			c2 ()
-		</script>
-		<!--
-		<script src="lang.js">
-			set x = fun n -> n + 1;
-			x(3)
-		</script>
-		-->
-		<!--
-		<script src="lang.js">
-			i = 0
-			while { i < 10 } do { x, y | x + y }
 
-			def while(cond, func):
-				if ( cond )
-					func()
-				while(cond, func);
+			print("c1: "+c1()+" -> "+c1()+" -> "+c1());
+			print("c2: "+c2()+" -> "+c2()+" -> "+c2());
+			print("c1: "+c1()+" -> "+c1()+" -> "+c1());
 		</script>
-		-->
+
+		<h1>Thoughts</h1>
+		<h2>Recursion</h2>
+		<script src="embed.js?ft=inside,nu">
+			set num   = 0;
+			set count = fun ->
+				if (num < 10)
+					count();
+				set num = num+1;
+			count();
+		</script>
+
+		<h2>Conditionals</h2>
+		<script src="embed.js?ft=inside,nu">
+			# Conditionals
+			set true = fun then else ->
+				then();
+			set false = fun then else ->
+				else();
+			set if = cond then else ->
+				cond then else;
+		</script>
+
+		<h2>For Loops</h2>
+		<script src="embed.js?ft=inside,nu">
+			# Iterators - for each
+			#    set tmp = range 0 2;
+			#    tmp(); -> Some 0
+			#    tmp(); -> Some 1
+			#    tmp(); -> Some 2
+			#    tmp(); -> None
+			set range = fun lo hi ->
+				set iter = fun ->
+					set out = if (lo <= hi)
+						( Some cur )
+						( None     )
+					set lo  = lo+1;
+					out;
+
+			set foreach = fun iter body ->
+				match iter():
+					Some x -> body(x);
+					          foreach iter body;
+					None   ->
+
+			set fib = fun ->
+				set a = 0;
+				set b = 1;
+				set iter = fun ->
+					set o = a;
+					set a = b;
+					set b = o + b;
+					Some o;
+
+			foreach range(1,10) fun i ->
+				print i
+		</script>
+
+		<h2>Iterators</h2>
+		<script src="embed.js?ft=inside,nu">
+			# Iterators - for loop
+			set for = init cond step body state=null ->
+				if cond(state)
+					{ set state = body(state);
+					  set next  = step(init);
+					  for next cond step body state; }
+					{ state; }
+
+			while 0, <10, +1, +, 0
+			while 0, {i|i<10}, {i|i+1}, {s,i|s+i}, 0
+		</script>
 	</body>
 </html>

@@ -1,5 +1,24 @@
+* {
+	margin:          0;
+	padding:         0;
+}
+body {
+	margin:          1em;
+}
+h1 {
+	font-size:       16pt;
+	margin-top:      2em;
+	padding-bottom:  0.2em;
+	border-bottom:   solid 1px black;
+}
+h2 {
+	font-size:       12pt;
+	font-weight:     normal;
+	margin:          0.5em 0 0.2em 0;
+}
 pre {
-	background:  #f8f8ff;
-	border:      solid 1px #aaaaff;
-	padding:     0.5em;
+	background:      #f4f4f4;
+	border:          solid 1px #aaaaff;
+	padding:         0.5em;
+	margin:          0 0 0 1em;
 }

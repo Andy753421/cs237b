@@ -2,6 +2,7 @@
 var constants = {pi: Math.PI, e: Math.E};
 var grammar   = null;
 var parser    = null;
+var output    = "";
 
 /* Init */
 function init() {
@@ -19,7 +20,8 @@ function init() {
 
 	/* Initialize interpreter */
 	parser = grammar.semantics().addOperation('run', {
-		Seq_seq:   function(x,_,y)     { return [ 'seq',   x.run(), y.run() ] },
+		Exp_seq:   function(x)         { return [ 'seq',   x.run()          ] },
+		Seq_seq:   function(x,_)       { return x.run()                       },
 
 		Or_or:     function(x,_,y)     { return [ 'or',    x.run(), y.run() ] },
 		And_and:   function(x,_,y)     { return [ 'and',   x.run(), y.run() ] },
@@ -52,11 +54,14 @@ function init() {
 		Stmt_set:  function(_,i,_,v)   { return [ 'set',   i.run(), v.run() ] },
 
 		Pri_paren: function(_,e,_)     { return e.run()                       },
+		Pri_brace: function(_,e,_)     { return e.run()                       },
 		Pri_var:   function(e)         { return [ 'var',   e.run()          ] },
 		Pri_num:   function(e)         { return [ 'num',   e.run()          ] },
+		Pri_str:   function(e)         { return [ 'str',   e.run()          ] },
 
 		ident:     function(_,_)       { return this.interval.contents             },
 		number:    function(_)         { return parseFloat(this.interval.contents) },
+		string:    function(_,e,_)     { return e.interval.contents                },
 
 		_many:     ohm.actions.makeArray,
 		_default:  ohm.actions.passThrough
@@ -78,6 +83,10 @@ function param(node, env, types) {
 }
 
 function call(closure, args, env) {
+	if (typeof(closure) == 'function')
+		return closure.apply(this,
+			map2(args, interp, env));
+
 	var params = closure[1];
 	var fexpr  = closure[2];
 	var fenv   = closure[3];
@@ -94,31 +103,25 @@ function call(closure, args, env) {
 	return interp(fexpr, fenv)
 }
 
-function clone(obj) {
-	var out = {};
-	for (var i in obj)
-		if (typeof obj[i] == "object")
-			out[i] = clone(obj[i]);
-		else
-			out[i] = obj[i];
-	return out;
-}
-
 function interp(node, env) {
-	if (env == undefined)
-		env = {};
+	if (env == undefined) {
+		var env = {};
+		env['print'] = function(str){
+			output += str + '\n';
+		};
+	}
 
 	var e = param(node, env);
 	var n = param(node, env, ['number']);
 	var s = param(node, env, ['string']);
 	var b = param(node, env, ['boolean']);
 	var v = param(node, env, ['number', 'boolean']);
-	var f = param(node, env, ['closure']);
+	var f = param(node, env, ['function', 'closure']);
 
 	console.log('interp: ' + node);
 	console.log('        ' + JSON.stringify(env));
 	switch (node[0]) {
-		case 'seq':  return e(1) ,  e(2)
+		case 'seq':  return tail(map2(node[1],interp,env));
 
 		case 'or':   return n(1) || n(2)
 		case 'and':  return n(1) && n(2)
@@ -131,7 +134,7 @@ function interp(node, env) {
 		case 'ge':   return n(1) >= n(2)
 		case 'le':   return n(1) >= n(2)
 
-		case 'add':  return n(1) +  n(2)
+		case 'add':  return e(1) +  e(2)
 		case 'sub':  return n(1) -  n(2)
 
 		case 'mul':  return n(1) *  n(2)
@@ -150,6 +153,7 @@ function interp(node, env) {
 
 		case 'var':  return env[node[1]]
 		case 'num':  return node[1]
+		case 'str':  return node[1]
 
 		default:     throw  "Unknown node: " + JSON.stringify(node[0])
 	}
@@ -161,24 +165,28 @@ function start_embed() {
 	var scripts = document.getElementsByTagName('script');
 	var script  = scripts[scripts.length-1];
 	var source  = strip_spaces(script.textContent);
+	var strip   = source.replace(/\s*#.*\n/g,'\n')
+	                    .replace(/\s*#.*$/g, '');
+
+	/* Ignore empty code */
+	if (!strip.match(/\S/))
+		return;
 
 	/* Add source box */
-	var match   = grammar.match(source);
-	var srcbox  = document.createElement('pre');
-	srcbox.textContent = source;
-	script.parentNode.appendChild(srcbox);
+	try {
+		var match   = grammar.match(strip);
+		var tree    = parser(match).run();
+		var val     = interp(tree);
+	} catch(e) {
+		var error   = e;
+	}
 
-	/* Add parse tree */
-	var tree    = parser(match).run();
-	var treebox = document.createElement('pre');
-	treebox.textContent = JSON.stringify(tree);
-	script.parentNode.appendChild(treebox);
-
-	/* Add output box */
-	var val     = interp(tree);
-	var valbox  = document.createElement('pre');
-	valbox.textContent = JSON.stringify(val);
-	script.parentNode.appendChild(valbox);
+	/* Output */
+	addbox("Source", source,   'nu,ft=inside')
+	//addbox("Tree",   pp(tree), 'nu,ft=javascript');
+	addbox("Output", output);
+	addbox("Return", JSON.stringify(val));
+	addbox("Error",  error);
 }
 
 init();
