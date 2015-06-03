@@ -15,16 +15,10 @@ function strip_spaces(text) {
 }
 
 function map(arr, f) {
-	var out = [];
+	var args = Array.prototype.slice.call(arguments).slice(2);
+	var out  = [];
 	for (var i in arr)
-		out[i] = f(arr[i]);
-	return out;
-}
-
-function map2(arr, f, arg) {
-	var out = [];
-	for (var i in arr)
-		out[i] = f(arr[i], arg);
+		out[i] = f.apply(this, [arr[i]].concat(args));
 	return out;
 }
 
@@ -55,10 +49,16 @@ function pp(node, prefix) {
 		return JSON.stringify(node);
 	if (node[0] == 'fun')
 		return '['+pp(node[0])+','+pp(node[1])+',\n' +
-		       pad+pp(node[2],pad) + ']';
+			pad+pp(node[2],pad) + ']';
 	if (node[0] == 'seq')
 		return '['+pp(node[0])+',[\n' +
 			node[1].map(function (n) {
+				return pad+pp(n,pad);
+			}).join(',\n') +
+		']]';
+	if (node[0] == 'match')
+		return '['+pp(node[0])+','+pp(node[1])+',\n' +
+			node[2].map(function (n) {
 				return pad+pp(n,pad);
 			}).join(',\n') +
 		']]';
