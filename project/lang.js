@@ -23,11 +23,18 @@ function init() {
 		Exp_seq:   function(x)         { return [ 'seq',   x.run()            ] },
 		Seq_seq:   function(x,_)       { return x.run()                         },
                                                                                       
-		Lst_two:   function(h,t)       { return h.run().concat([t.run()])       },
-		Lst_end:   function(h)         { return h.run()                         },
-		Lst_one:   function(h)         { return [ h.run() ]                     },
-		Lst_nul:   function()          { return [         ]                     },
-		Elm_elm:   function(x,_)       { return x.run()                         },
+		List_two:  function(h,t)       { return h.run().concat([t.run()])       },
+		List_end:  function(h)         { return h.run()                         },
+		List_one:  function(h)         { return [ h.run() ]                     },
+		List_nul:  function()          { return [         ]                     },
+		LElm_elm:  function(x,_)       { return x.run()                         },
+                                                                                      
+		Hash_two:  function(h,t)       { return extend(smash(h.run()), t.run()) },
+		Hash_end:  function(h)         { return smash(h.run())                  },
+		Hash_one:  function(h)         { return h.run()                         },
+		Hash_nul:  function()          { return {         }                     },
+		HElm_elm:  function(x,_)       { return x.run()                         },
+		HExp_exp:  function(k,_,v)     { return pair(k.run(), v.run())          },
                                                                                       
 		Or_or:     function(x,_,y)     { return [ 'or',    x.run(), y.run()   ] },
 		And_and:   function(x,_,y)     { return [ 'and',   x.run(), y.run()   ] },
@@ -58,13 +65,17 @@ function init() {
                                                                                       
 		Def_fun:   function(_,a,_,b)   { return [ 'fun',   a.run(), b.run()   ] },
 		Def_set:   function(_,i,_,v)   { return [ 'set',   i.run(), v.run()   ] },
+		Def_as:    function(_,a,_,b)   { return [ 'fun',   a.run(), b.run()   ] },
+		Def_def:   function(_,i,a,_,b) { return [ 'set',   i.run(), [
+			                                  'fun',   a.run(), b.run() ] ] },
 		Def_match: function(_,v,_,b)   { return [ 'match', v.run(), b.run()   ] },
 
 		Case_case: function(_,k,_,v)   { return [ k.run(), v.run() ]            },
                                                                                       
 		Pri_paren: function(_,e,_)     { return e.run()                         },
 		Pri_brace: function(_,e,_)     { return e.run()                         },
-		Pri_lst:   function(_,e,_)     { return [ 'lst',   e.run()            ] },
+		Pri_list:  function(_,e,_)     { return [ 'list',  e.run()            ] },
+		Pri_hash:  function(_,e,_)     { return [ 'hash',  e.run()            ] },
 		Pri_type:  function(t)         { return [ 'type',  t.run(), []        ] }, 
 		Pri_call:  function(f,_,_)     { return [ 'call',  f.run(), []        ] },
 		Pri_var:   function(e)         { return [ 'var',   e.run()            ] },
@@ -81,19 +92,65 @@ function init() {
 	});
 }
 
-function param(node, env, types) {
-	return function (n) {
-		var val = interp(node[n], env);
-		if (!types)
-			return val;
-		if (types.indexOf(typeof val) >= 0)
-			return val;
-		if (typeof val == 'object' &&
-		    types.indexOf(val[0]) >= 0)
-			return val;
-		throw 'not a '+types+': ['+typeof val+'] '+val
+function matches(value, pattern, binding)
+{
+	console.log("matches: " + pp(value) + " ?= " + pp(pattern));
+
+	// Scalars
+	if (!(pattern instanceof Array)) {
+		if (value === pattern) {
+			return binding;
+		} else {
+			return false;
+		}
 	}
+
+	// Variables
+	if (pattern[0] === 'var') {
+		var name = pattern[1];
+		if (binding.hasOwnProperty(name)) {
+			if (binding[name] === value)
+				return binding;
+			else
+				return false;
+		} else {
+			return extend(binding, pair(name, value));
+		}
+	}
+
+	// Arrays
+	if (pattern.length != value.length)
+		return false;
+	for (var i=0; i<pattern.length; i++) {
+		var kids = matches(value[i], pattern[i], binding);
+		if (typeof kids != "object") 
+			return false;
+		for (var k in kids)
+			binding[k] = kids[k];
+	}
+	return binding;
 }
+
+function match(value, body, env)
+{
+	var local = clone(env); 
+	for (var i=0; i<body.length; i++) {
+		var pattern = interp(body[i][0], env, true);
+		var binding = matches(value, pattern, {});
+		if (binding === false)
+			continue;
+		console.log("binding:");
+		for (var k in binding)
+			console.log("  " + k + " -> " + binding[k]);
+		for (var k in binding)
+			local[k] = binding[k];
+		var out = interp(body[i][1], local, false);
+		console.log("out: " + out);
+		return out;
+	}
+	throw "match failure"
+}
+
 
 function call(closure, args, env) {
 	if (typeof(closure) == 'function')
@@ -103,19 +160,24 @@ function call(closure, args, env) {
 	var params = closure[1];
 	var fexpr  = closure[2];
 	var fenv   = closure[3];
+	var name   = closure[4];
+
 	console.log('call:   ['+params+']['+fexpr+']');
 	console.log('        ' +JSON.stringify(args));
 	console.log('        ' +JSON.stringify(fenv));
+
 	if (args.length != params.length)
 		throw 'wrong number of arguments: '
-			+ JSON.stringify(args) + ' != '
-			+ JSON.stringify(params);
+			+ args.length   + ": " + JSON.stringify(args) + ' != '
+			+ params.length + ": " + JSON.stringify(params);
+
+	fenv[name] = clone(closure);
 	for (var i = 0; i < args.length; i++)
-		fenv[params[i]] = interp(args[i], env);
-	//for (var i in fenv)
-	//	if (fenv[i] == i)
-	//		fenv[i] = closure;
-	return interp(fexpr, fenv)
+		fenv[params[i]] = clone(interp(args[i], env));
+	var out1 = interp(fexpr, fenv);
+	var out2 = clone(out1);
+	//console.log(" --> " + out1 + ":" + out2);
+	return out2;
 }
 
 function get(name, env, partial)
@@ -127,24 +189,21 @@ function get(name, env, partial)
 	return env[name];
 }
 
-function matches(value, pattern)
-{
-	console.log("matches: " + value + " ?= " + pattern);
-	return [];
-}
-
-function match(value, body, env)
-{
-	for (var i=0; i<body.length; i++) {
-		var pattern = interp(body[i][0], env, true);
-		var binding = matches(value, pattern);
-		if (typeof binding == "object")
-			return interp(body[i][1], env, false);
+function param(node, env, partial, types) {
+	return function (n, name) {
+		var val = interp(node[n], env, partial, name);
+		if (!types)
+			return val;
+		if (types.indexOf(typeof val) >= 0)
+			return val;
+		if (typeof val == 'object' &&
+		    types.indexOf(val[0]) >= 0)
+			return val;
+		throw 'not a '+types+': ['+typeof val+'] '+val
 	}
-	return [];
 }
 
-function interp(node, env, partial) {
+function interp(node, env, partial, name) {
 	if (env == undefined) {
 		var env = {};
 		env['print'] = function(str){
@@ -160,16 +219,17 @@ function interp(node, env, partial) {
 		};
 	}
 
-	var e = param(node, env);
-	var n = param(node, env, ['number']);
-	var s = param(node, env, ['string']);
-	var b = param(node, env, ['boolean']);
-	var v = param(node, env, ['number', 'boolean']);
-	var f = param(node, env, ['function', 'closure']);
+	var e = param(node, env, partial);
+	var n = param(node, env, partial, ['number']);
+	var s = param(node, env, partial, ['string']);
+	var b = param(node, env, partial, ['boolean']);
+	var v = param(node, env, partial, ['number', 'boolean']);
+	var f = param(node, env, partial, ['function', 'closure']);
 	var a = function (n) { return map(node[n], interp, env, partial); };
+	var h = function (n) { return map(node[n], interp, env, partial); };
 
-	console.log('interp: ' + node);
-	console.log('        ' + JSON.stringify(env));
+	//console.log('interp: ' + node);
+	//console.log('        ' + JSON.stringify(env));
 	switch (node[0]) {
 		case 'seq':   return tail(a(1));
 
@@ -199,11 +259,12 @@ function interp(node, env, partial) {
 		case 'type':  return [ node[1], a(2) ]
 		case 'call':  return call(f(1), node[2], env)
 
-		case 'fun':   return ['closure', node[1], node[2], clone(env)]
-		case 'set':   return env[node[1]] = e(2)
+		case 'fun':   return ['closure', node[1], node[2], clone(env), name]
+		case 'set':   return env[node[1]] = e(2, node[1]);
 		case 'match': return match(e(1), node[2], env);
 
-		case 'lst':   return a(1);
+		case 'list':  return a(1);
+		case 'hash':  return h(1);
 		case 'var':   return get(node[1], env, partial);
 		case 'num':   return node[1]
 		case 'str':   return node[1]
@@ -236,7 +297,7 @@ function start_embed() {
 
 	/* Output */
 	var src = addbox("Source", source,   'nu,ft=inside')
-	addbox("Tree",   pp(tree), 'nu,ft=javascript');
+	//addbox("Tree",   pp(tree), 'nu,ft=javascript');
 	if (match.failed()) {
 		addbox("Error", match.message);
 		return;

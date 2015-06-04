@@ -16,7 +16,10 @@ function strip_spaces(text) {
 
 function map(arr, f) {
 	var args = Array.prototype.slice.call(arguments).slice(2);
-	var out  = [];
+	if (arr instanceof Array)
+		var out = [];
+	else
+		var out = {};
 	for (var i in arr)
 		out[i] = f.apply(this, [arr[i]].concat(args));
 	return out;
@@ -31,15 +34,43 @@ function tail(arr) {
 }
 
 function clone(obj) {
-	var out = {};
-	for (var i in obj)
-		if (typeof obj[i] == "object")
+	if (obj instanceof Array) {
+		var out = [];
+		for (var i in obj)
 			out[i] = clone(obj[i]);
-		else
-			out[i] = obj[i];
+		return out;
+	}
+
+	if (typeof obj == "object") {
+		var out = {};
+		for (var k in obj)
+			out[k] = clone(obj[k]);
+		return out;
+	}
+
+	return obj;
+}
+
+function pair(k, v) {
+	var out = {}
+	out[k] = v;
 	return out;
 }
 
+function extend(a, b) {
+	var out = clone(a);
+	for (var k in b)
+		out[k] = b[k]
+	return out;
+}
+
+function smash(lst) {
+	var out = {}
+	for (var i in lst)
+		for (var k in lst[i])
+			out[k] = lst[i][k]
+	return out;
+}
 
 function pp(node, prefix) {
 	if (prefix == undefined)

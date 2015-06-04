@@ -10,69 +10,80 @@
 		<script type="text/javascript" src="ohm.js"></script>
 		<script type="text/ohm-js">
 			Inside {
-			  Exp    = Seq+                     -- seq
-			  Seq    = Or  ";"                  -- seq
+			  Exp    = Seq+                      -- seq
+			  Seq    = Or  ";"                   -- seq
 
-			  Lst    = Elm+ Or                  -- two
-			         | Elm+                     -- end
-                                 | Or                       -- one
-                                 |                          -- nul
-                          Elm    = Or  ","                  -- elm
+			  List   = LElm+ LExp                -- two
+			         | LElm+                     -- end
+			         | LExp                      -- one
+				 |                           -- nul
+			  LElm   = LExp ","                  -- elm
+			  LExp   = Or                        -- exp
 
-			  Or     = Or  "||" And             -- or
+			  Hash   = HElm+ HExp                -- two
+			         | HElm+                     -- end
+			         | HExp                      -- one
+				 |                           -- nul
+			  HElm   = HExp ","                  -- elm
+			  HExp   = ident ":" Or              -- exp
+
+			  Or     = Or  "||" And              -- or
 			         | And
 
-			  And    = And "&&" Eq              -- and
+			  And    = And "&&" Eq               -- and
 			         | Eq
 
-			  Eq     = Eq  "==" Cmp             -- eq
-			         | Eq  "!=" Cmp             -- ne
+			  Eq     = Eq  "==" Cmp              -- eq
+			         | Eq  "!=" Cmp              -- ne
 			         | Cmp
 
-			  Cmp    = Cmp ">"  Add             -- gt
-			         | Cmp "<"  Add             -- lt
-			         | Cmp ">=" Add             -- ge
-			         | Cmp "<=" Add             -- le
+			  Cmp    = Cmp ">"  Add              -- gt
+			         | Cmp "<"  Add              -- lt
+			         | Cmp ">=" Add              -- ge
+			         | Cmp "<=" Add              -- le
 			         | Add
 
-			  Add    = Add "+"  Mul             -- add
-			         | Add "-"  Mul             -- sub
+			  Add    = Add "+"  Mul              -- add
+			         | Add "-"  Mul              -- sub
 			         | Mul
 
-			  Mul    = Mul "*"  Pow             -- mul
-			         | Mul "/"  Pow             -- div
-			         | Mul "%"  Pow             -- mod
+			  Mul    = Mul "*"  Pow              -- mul
+			         | Mul "/"  Pow              -- div
+			         | Mul "%"  Pow              -- mod
 			         | Pow
 
-			  Pow    = Pow "^"  Un              -- pow
+			  Pow    = Pow "^"  Un               -- pow
 			         | Un
 
-			  Un     = "+" Un                   -- pos
-			         | "-" Un                   -- neg
-			         | "!" Un                   -- not
+			  Un     = "+" Un                    -- pos
+			         | "-" Un                    -- neg
+			         | "!" Un                    -- not
 			         | Type
 
-			  Type   = label Def+               -- args
+			  Type   = label Def+                -- args
 			         | Call
 
-			  Call   = Pri   Def+               -- args
+			  Call   = Pri   Def+                -- args
 			         | Def
 
-			  Def    = "fun" ident* "->" Or     -- fun
-			         | "set" ident  "="  Or     -- set
-			         | "match" Or  "with" Case+ -- match
-			         | Pri                      -- pri
+			  Def    = "fun" ident* "->" Or      -- fun
+			         | "set" ident  "="  Or      -- set
+			         | "as"  ident*       ":" Or -- as
+			         | "def" ident ident* ":" Or -- def
+			         | "match" Or  "with" Case+  -- match
+			         | Pri                       -- pri
 
-			  Case   = "|" Or "->" Or           -- case
+			  Case   = "|" Or "->" Or            -- case
 
-			  Pri    = "(" Or  ")"              -- paren
-			         | "{" Exp "}"              -- brace
-			         | "[" Lst "]"              -- lst
-			         | Pri "(" ")"              -- call
-			         | label                    -- type
-			         | ident                    -- var
-			         | number                   -- num
-			         | string                   -- str
+			  Pri    = "(" Or   ")"              -- paren
+			         | "{" Exp  "}"              -- brace
+			         | "[" List "]"              -- list
+			         | "[" Hash "]"              -- hash
+			         | Pri "(" ")"               -- call
+			         | label                     -- type
+			         | ident                     -- var
+			         | number                    -- num
+			         | string                    -- str
 
 			  ident  = ~kword /[a-z_]/ alnum*
 
@@ -93,7 +104,9 @@
 			  kword  = "match"
 			         | "with"
 			         | "fun"
+			         | "as"
 			         | "set"
+			         | "def"
 			}
 		</script>
 	</head>
@@ -114,6 +127,49 @@
 		</script>
 		-->
 
+		<h1>Types and arrays</h1>
+		<script src="lang.js">
+			print ( Foo             );
+			print ( Foo 123         );
+			print ( Foo (Bar 456)   );
+
+			print [                 ];
+			print [      1          ];
+			print [      1,      2  ];
+			print [      1,      2, ];
+
+			print [ foo: 1          ];
+			print [ foo: 1, bar: 2  ];
+			print [ foo: 1, bar: 2, ];
+		</script>
+
+		<!--
+		<h1>Records</h1>
+		<script src="lang.js">
+			# Hello, World
+			print ( "hello: " + 123 ) ;
+
+			# Simple functions
+			set num = 1;
+			set inc = fun -> set num = num + 1;
+
+			print ( "inc:  " + inc() ) ;
+			print ( "inc:  " + inc() ) ;
+			print ( "num:  " + num   ) ;
+		</script>
+		-->
+
+		<!--
+		<h1>Recursion</h1>
+		<script src="lang.js">
+			set sum = fun n ->
+				match n with
+					| 0 -> 0
+					| _ -> n + (sum (n-1));
+			sum 5;
+		</script>
+		-->
+
 		<!--
 		<h1>Counters</h1>
 		<script src="lang.js">
@@ -129,38 +185,60 @@
 		-->
 
 		<!--
-		<h1>Types and arrays</h1>
+		<h1>Match</h1>
 		<script src="lang.js">
-			[ Foo 123 456,
-			  None, ];
+			match None with
+				| Some 0 -> print ("some: zero")
+				| Some n -> print ("some: " + n)
+				| None   -> print "none"
+				| _      -> print "unknown";
 		</script>
 		-->
 
-		<h1>Match</h2>
-		<script src="lang.js">
-			match 1 with
-				| [ 1+2, y ] -> print "one"
-				| n -> print "more";
-		</script>
-
+		<!--
 		<h1>Iterators</h1>
 		<script src="lang.js">
-			#set range = fun lo hi ->
-			#	set iter = fun ->
-			#		if (lo <= hi) {
-			#			set out = lo;
-			#			set lo  = lo+1;
-			#			Some out;
-			#		} None;
+			def range lo hi:
+				fun ->
+					if (lo <= hi) {
+						set out = lo;
+						set lo  = lo+1;
+						Some out;
+					} None;
 
-			#set foreach = fun iter body ->
-			#	match iter()
-			#		Some x -> { body(x); foreach iter body; }
-			#		None   -> [];
+			def map iter body:
+				fun ->
+					match iter() with
+						| Some x -> Some (body x)
+						| None   -> None;
 
-			#foreach (range 1 3)
-			#	fun item -> print item;
+			def zip a b:
+				fun ->
+					match [a(), b()] with
+						| [Some x, Some y] -> Some [x, y]
+						| [None,   None  ] -> None;
+
+			def foreach iter body:
+				match iter() with
+					| Some x -> { body x; foreach iter body; }
+					| None   -> [];
+
+
+			set nums = range 2 4;
+			set dbls = map nums as item: item * 2;
+			set both = zip nums dbls;
+
+			foreach both as arr:
+				match arr with
+					| [x, y] -> print ("x="+x+", y="+y);
+
+			foreach nums as num:
+				print ("num: " + num);
+
+			foreach dbls as dbl:
+				print ("dbl: " + dbl);
 		</script>
+		-->
 
 		<!--
 		<h1>Thoughts</h1>
