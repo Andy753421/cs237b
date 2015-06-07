@@ -22,47 +22,52 @@ function init() {
 	parser = grammar.semantics().addOperation('run', {
 		Exp_seq:   function(x)         { return [ 'seq',   x.run()            ] },
 		Seq_seq:   function(x,_)       { return x.run()                         },
-                                                                                      
+
 		List_two:  function(h,t)       { return h.run().concat([t.run()])       },
 		List_end:  function(h)         { return h.run()                         },
 		List_one:  function(h)         { return [ h.run() ]                     },
 		List_nul:  function()          { return [         ]                     },
 		LElm_elm:  function(x,_)       { return x.run()                         },
-                                                                                      
+
 		Hash_two:  function(h,t)       { return extend(smash(h.run()), t.run()) },
 		Hash_end:  function(h)         { return smash(h.run())                  },
 		Hash_one:  function(h)         { return h.run()                         },
 		Hash_nul:  function()          { return {         }                     },
 		HElm_elm:  function(x,_)       { return x.run()                         },
 		HExp_exp:  function(k,_,v)     { return pair(k.run(), v.run())          },
-                                                                                      
+
 		Or_or:     function(x,_,y)     { return [ 'or',    x.run(), y.run()   ] },
 		And_and:   function(x,_,y)     { return [ 'and',   x.run(), y.run()   ] },
-                                                                                      
+
 		Eq_eq:     function(x,op,y)    { return [ 'eq',    x.run(), y.run()   ] },
 		Eq_ne:     function(x,op,y)    { return [ 'ne',    x.run(), y.run()   ] },
-                                                                                      
+
 		Cmp_gt:    function(x,op,y)    { return [ 'gt',    x.run(), y.run()   ] },
 		Cmp_lt:    function(x,op,y)    { return [ 'lt',    x.run(), y.run()   ] },
 		Cmp_ge:    function(x,op,y)    { return [ 'ge',    x.run(), y.run()   ] },
 		Cmp_le:    function(x,op,y)    { return [ 'le',    x.run(), y.run()   ] },
-                                                                                      
+
 		Add_add:   function(x,op,y)    { return [ 'add',   x.run(), y.run()   ] },
 		Add_sub:   function(x,op,y)    { return [ 'sub',   x.run(), y.run()   ] },
-                                                                                      
+
 		Mul_mul:   function(x,op,y)    { return [ 'mul',   x.run(), y.run()   ] },
 		Mul_div:   function(x,op,y)    { return [ 'div',   x.run(), y.run()   ] },
 		Mul_mod:   function(x,op,y)    { return [ 'mod',   x.run(), y.run()   ] },
-                                                                                      
+
 		Pow_pow:   function(x,op,y)    { return [ 'pow',   x.run(), y.run()   ] },
-                                                                                      
+
 		Un_pos:    function(op,e)      { return [ 'pos',   e.run()            ] },
 		Un_neg:    function(op,e)      { return [ 'neg',   e.run()            ] },
 		Un_not:    function(op,e)      { return [ 'not',   e.run()            ] },
 
-		Type_args: function(t,a)       { return [ 'type',  t.run(), a.run()   ] }, 
+		Index_idx: function(h,s)       { return [ 'index', h.run(), s.run()   ] },
+		Sub_ident: function(_,k)       { return k.run()                         },
+		Sub_index: function(_,i)       { return i.run()                         },
+		Sub_expr:  function(_,i,_)     { return i.run()                         },
+
+		Type_args: function(t,a)       { return [ 'type',  t.run(), a.run()   ] },
 		Call_args: function(f,a)       { return [ 'call',  f.run(), a.run()   ] },
-                                                                                      
+
 		Def_fun:   function(_,a,_,b)   { return [ 'fun',   a.run(), b.run()   ] },
 		Def_set:   function(_,i,_,v)   { return [ 'set',   i.run(), v.run()   ] },
 		Def_as:    function(_,a,_,b)   { return [ 'fun',   a.run(), b.run()   ] },
@@ -71,12 +76,12 @@ function init() {
 		Def_match: function(_,v,_,b)   { return [ 'match', v.run(), b.run()   ] },
 
 		Case_case: function(_,k,_,v)   { return [ k.run(), v.run() ]            },
-                                                                                      
+
 		Pri_paren: function(_,e,_)     { return e.run()                         },
 		Pri_brace: function(_,e,_)     { return e.run()                         },
 		Pri_list:  function(_,e,_)     { return [ 'list',  e.run()            ] },
 		Pri_hash:  function(_,e,_)     { return [ 'hash',  e.run()            ] },
-		Pri_type:  function(t)         { return [ 'type',  t.run(), []        ] }, 
+		Pri_type:  function(t)         { return [ 'type',  t.run(), []        ] },
 		Pri_call:  function(f,_,_)     { return [ 'call',  f.run(), []        ] },
 		Pri_var:   function(e)         { return [ 'var',   e.run()            ] },
 		Pri_num:   function(e)         { return [ 'num',   e.run()            ] },
@@ -123,7 +128,7 @@ function matches(value, pattern, binding)
 		return false;
 	for (var i=0; i<pattern.length; i++) {
 		var kids = matches(value[i], pattern[i], binding);
-		if (typeof kids != "object") 
+		if (typeof kids != "object")
 			return false;
 		for (var k in kids)
 			binding[k] = kids[k];
@@ -133,7 +138,7 @@ function matches(value, pattern, binding)
 
 function match(value, body, env)
 {
-	var local = clone(env); 
+	var local = clone(env);
 	for (var i=0; i<body.length; i++) {
 		var pattern = interp(body[i][0], env, true);
 		var binding = matches(value, pattern, {});
@@ -256,6 +261,7 @@ function interp(node, env, partial, name) {
 		case 'neg':   return - n(1)
 		case 'not':   return ! b(1)
 
+		case 'index': return e(1)[e(2)]
 		case 'type':  return [ node[1], a(2) ]
 		case 'call':  return call(f(1), node[2], env)
 
@@ -297,7 +303,7 @@ function start_embed() {
 
 	/* Output */
 	var src = addbox("Source", source,   'nu,ft=inside')
-	//addbox("Tree",   pp(tree), 'nu,ft=javascript');
+	addbox("Tree",   pp(tree), 'nu,ft=javascript');
 	if (match.failed()) {
 		addbox("Error", match.message);
 		return;

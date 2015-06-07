@@ -58,7 +58,13 @@
 			  Un     = "+" Un                    -- pos
 			         | "-" Un                    -- neg
 			         | "!" Un                    -- not
+			         | Index
+
+			  Index  = Pri Sub+                  -- idx
 			         | Type
+			  Sub    = "." ident                 -- ident
+			         | "." index                 -- index
+			         | ".(" Or ")"               -- expr
 
 			  Type   = label Def+                -- args
 			         | Call
@@ -89,7 +95,9 @@
 
 			  label  = /[A-Z]/  alnum*
 
-			  number = digit* "." digit+        -- fract
+			  index  = digit+                   -- whole
+
+			  number = digit+ "." digit+        -- fract
 			         | digit+                   -- whole
 
 			  string = "\"" char* "\""
@@ -127,6 +135,7 @@
 		</script>
 		-->
 
+		<!--
 		<h1>Types and arrays</h1>
 		<script src="lang.js">
 			print ( Foo             );
@@ -141,6 +150,13 @@
 			print [ foo: 1          ];
 			print [ foo: 1, bar: 2  ];
 			print [ foo: 1, bar: 2, ];
+		</script>
+		-->
+
+		<h1>Indexing</h1>
+		<script src="lang.js">
+			set lst = ["zero","one","two","three"];
+			print (lst.0);
 		</script>
 
 		<!--
