@@ -35,6 +35,8 @@ function tail(arr) {
 
 function clone(obj) {
 	if (obj instanceof Array) {
+		if (obj[0] == "closure")
+			return [ "closure", obj[1], obj[2], clone(obj[3]), obj[4] ];
 		var out = [];
 		for (var i in obj)
 			out[i] = clone(obj[i]);
@@ -76,7 +78,7 @@ function pp(node, prefix) {
 	if (prefix == undefined)
 		prefix = '';
 	var pad = prefix+'    ';
-	if (typeof node != "object")
+	if (!(node instanceof Array))
 		return JSON.stringify(node);
 	if (node[0] == 'fun')
 		return '['+pp(node[0])+','+pp(node[1])+',\n' +

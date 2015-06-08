@@ -2,7 +2,7 @@
 var constants = {pi: Math.PI, e: Math.E};
 var grammar   = null;
 var parser    = null;
-var output    = "";
+var output    = '';
 
 /* Init */
 function init() {
@@ -12,7 +12,7 @@ function init() {
 	/* Initialize grammar */
 	var scripts = document.getElementsByTagName('script');
 	for (var i=0; i<scripts.length; i++) {
-		if (scripts[i].type != "text/ohm-js")
+		if (scripts[i].type != 'text/ohm-js')
 			continue
 		grammar = ohm.grammarFromScriptElement(scripts[i]);
 		break;
@@ -61,8 +61,8 @@ function init() {
 		Un_not:    function(op,e)      { return [ 'not',   e.run()            ] },
 
 		Index_idx: function(h,s)       { return [ 'index', h.run(), s.run()   ] },
-		Sub_ident: function(_,k)       { return k.run()                         },
-		Sub_index: function(_,i)       { return i.run()                         },
+		Sub_ident: function(_,k)       { return [ 'str',   k.run()            ] },
+		Sub_index: function(_,i)       { return [ 'num',   i.run()            ] },
 		Sub_expr:  function(_,i,_)     { return i.run()                         },
 
 		Type_args: function(t,a)       { return [ 'type',  t.run(), a.run()   ] },
@@ -70,6 +70,7 @@ function init() {
 
 		Def_fun:   function(_,a,_,b)   { return [ 'fun',   a.run(), b.run()   ] },
 		Def_set:   function(_,i,_,v)   { return [ 'set',   i.run(), v.run()   ] },
+		Def_upd:   function(_,i,_,v)   { return [ 'upd',   i.run(), v.run()   ] },
 		Def_as:    function(_,a,_,b)   { return [ 'fun',   a.run(), b.run()   ] },
 		Def_def:   function(_,i,a,_,b) { return [ 'set',   i.run(), [
 			                                  'fun',   a.run(), b.run() ] ] },
@@ -87,10 +88,11 @@ function init() {
 		Pri_num:   function(e)         { return [ 'num',   e.run()            ] },
 		Pri_str:   function(e)         { return [ 'str',   e.run()            ] },
 
-		ident:     function(_,_)       { return this.interval.contents                },
-		label:     function(_,_)       { return this.interval.contents                },
-		number:    function(_)         { return parseFloat(this.interval.contents)    },
-		string:    function(_,e,_)     { return e.interval.contents                   },
+		ident:     function(_,_)       { return this.interval.contents             },
+		index:     function(_)         { return parseInt(this.interval.contents)   },
+		label:     function(_,_)       { return this.interval.contents             },
+		number:    function(_)         { return parseFloat(this.interval.contents) },
+		string:    function(_,e,_)     { return e.interval.contents                },
 
 		_many:     ohm.actions.makeArray,
 		_default:  ohm.actions.passThrough
@@ -99,7 +101,7 @@ function init() {
 
 function matches(value, pattern, binding)
 {
-	console.log("matches: " + pp(value) + " ?= " + pp(pattern));
+	//console.log('matches: ' + pp(value) + ' ?= ' + pp(pattern));
 
 	// Scalars
 	if (!(pattern instanceof Array)) {
@@ -128,7 +130,7 @@ function matches(value, pattern, binding)
 		return false;
 	for (var i=0; i<pattern.length; i++) {
 		var kids = matches(value[i], pattern[i], binding);
-		if (typeof kids != "object")
+		if (typeof kids != 'object')
 			return false;
 		for (var k in kids)
 			binding[k] = kids[k];
@@ -144,16 +146,18 @@ function match(value, body, env)
 		var binding = matches(value, pattern, {});
 		if (binding === false)
 			continue;
-		console.log("binding:");
-		for (var k in binding)
-			console.log("  " + k + " -> " + binding[k]);
+		//console.log('binding:');
+		//for (var k in binding)
+		//	console.log('  ' + k + ' -> ' + binding[k]);
 		for (var k in binding)
 			local[k] = binding[k];
 		var out = interp(body[i][1], local, false);
-		console.log("out: " + out);
+		for (var k in env)
+			env[k] = local[k];
+		//console.log('out: ' + out);
 		return out;
 	}
-	throw "match failure"
+	throw 'match failure'
 }
 
 
@@ -167,22 +171,38 @@ function call(closure, args, env) {
 	var fenv   = closure[3];
 	var name   = closure[4];
 
-	console.log('call:   ['+params+']['+fexpr+']');
-	console.log('        ' +JSON.stringify(args));
-	console.log('        ' +JSON.stringify(fenv));
+	//console.log('call:   ['+params+']['+fexpr+']');
+	//console.log('        ' +JSON.stringify(args));
+	//console.log('        ' +JSON.stringify(fenv));
 
 	if (args.length != params.length)
 		throw 'wrong number of arguments: '
-			+ args.length   + ": " + JSON.stringify(args) + ' != '
-			+ params.length + ": " + JSON.stringify(params);
+			+ args.length   + ': ' + JSON.stringify(args) + ' != '
+			+ params.length + ': ' + JSON.stringify(params);
 
 	fenv[name] = clone(closure);
 	for (var i = 0; i < args.length; i++)
 		fenv[params[i]] = clone(interp(args[i], env));
 	var out1 = interp(fexpr, fenv);
 	var out2 = clone(out1);
-	//console.log(" --> " + out1 + ":" + out2);
+	//console.log(' --> ' + out1 + ':' + out2);
 	return out2;
+}
+
+function set(name, value, env)
+{
+	if (typeof name == "string")
+		return env[name] = interp(value, env, false, name);
+	if (typeof name == "object" && name[0] == 'index') {
+		var obj = interp(name[1], env);
+		var idx = map(name[2], interp, env);
+		var key = idx[idx.length-1];
+		for (var i=0; i<(idx.length-1); i++)
+			obj = obj[idx[i]];
+		console.log("set: " + obj + '[' + key + ']=' + value);
+		return obj[key] = interp(value, env);
+	}
+	throw "Invalid assignment"
 }
 
 function get(name, env, partial)
@@ -190,7 +210,7 @@ function get(name, env, partial)
 	if (partial)
 		return ['var', name];
 	if (!env.hasOwnProperty(name))
-		throw "Undefined variable: " + name;
+		throw 'Undefined variable: ' + name;
 	return env[name];
 }
 
@@ -208,11 +228,47 @@ function param(node, env, partial, types) {
 	}
 }
 
+function index(obj, idx) {
+	var out = obj;
+	for (var i in idx) {
+		if (!out.hasOwnProperty(idx[i]))
+			throw 'No property: ' + idx[i];
+		out = out[idx[i]];
+	}
+	//console.log("index: " + pp(obj) + pp(idx) + "=" + out); 
+	return out;
+}
+
+function idents(code, obj) {
+	if (code[0] == "var")
+		obj[code[1]] = true;
+	else
+		for (var i in code)
+			if (code[i] instanceof Array)
+				idents(code[i], obj);
+}
+
+function closure(params, code, env, name) {
+	// Attempt to figure out what variables are
+	// referenced by the closure so that we
+	// only have to copy the ones that are used
+	var cenv = {};
+	var vars = {};
+	idents(code, vars);
+	for (var k in env)
+		if (vars.hasOwnProperty(k))
+			cenv[k] = clone(env[k]);
+	return ['closure', params, code, cenv, name];
+}
+
 function interp(node, env, partial, name) {
 	if (env == undefined) {
 		var env = {};
+		env['true']  = true;
+		env['false'] = false;
+		env['null']  = null;
 		env['print'] = function(str){
-			if (typeof str != "string")
+			if (typeof str != 'string')
 				str = JSON.stringify(str);
 			output += str + '\n';
 		};
@@ -228,7 +284,7 @@ function interp(node, env, partial, name) {
 	var n = param(node, env, partial, ['number']);
 	var s = param(node, env, partial, ['string']);
 	var b = param(node, env, partial, ['boolean']);
-	var v = param(node, env, partial, ['number', 'boolean']);
+	var v = param(node, env, partial, ['number', 'boolean', 'string']);
 	var f = param(node, env, partial, ['function', 'closure']);
 	var a = function (n) { return map(node[n], interp, env, partial); };
 	var h = function (n) { return map(node[n], interp, env, partial); };
@@ -238,11 +294,11 @@ function interp(node, env, partial, name) {
 	switch (node[0]) {
 		case 'seq':   return tail(a(1));
 
-		case 'or':    return n(1) || n(2)
-		case 'and':   return n(1) && n(2)
+		case 'or':    return b(1) || b(2)
+		case 'and':   return b(1) && b(2)
 
-		case 'eq':    return v(1) == v(2)
-		case 'ne':    return v(1) != v(2)
+		case 'eq':    return e(1) == e(2)
+		case 'ne':    return e(1) != e(2)
 
 		case 'gt':    return n(1) >  n(2)
 		case 'lt':    return n(1) <  n(2)
@@ -261,12 +317,13 @@ function interp(node, env, partial, name) {
 		case 'neg':   return - n(1)
 		case 'not':   return ! b(1)
 
-		case 'index': return e(1)[e(2)]
-		case 'type':  return [ node[1], a(2) ]
+		case 'index': return index(e(1), a(2))
+		case 'type':  return [node[1]].concat(a(2))
 		case 'call':  return call(f(1), node[2], env)
 
-		case 'fun':   return ['closure', node[1], node[2], clone(env), name]
-		case 'set':   return env[node[1]] = e(2, node[1]);
+		case 'fun':   return closure(node[1], node[2], env, name);
+		case 'set':   return set(node[1], node[2], env);
+		case 'upd':   return set(node[1], node[2], env);
 		case 'match': return match(e(1), node[2], env);
 
 		case 'list':  return a(1);
@@ -275,7 +332,7 @@ function interp(node, env, partial, name) {
 		case 'num':   return node[1]
 		case 'str':   return node[1]
 
-		default:      throw  "Unknown node: " + JSON.stringify(node[0])
+		default:      throw  'Unknown node: ' + JSON.stringify(node[0])
 	}
 }
 
@@ -302,15 +359,15 @@ function start_embed() {
 	}
 
 	/* Output */
-	var src = addbox("Source", source,   'nu,ft=inside')
-	addbox("Tree",   pp(tree), 'nu,ft=javascript');
+	var src = addbox('Source', source,   'nu,ft=inside')
+	//addbox('Tree',   pp(tree), 'nu,ft=javascript');
 	if (match.failed()) {
-		addbox("Error", match.message);
+		addbox('Error', match.message);
 		return;
 	}
-	addbox("Output", output);
-	addbox("Return", JSON.stringify(val));
-	addbox("Error",  error);
+	addbox('Output', output);
+	addbox('Return', JSON.stringify(val));
+	addbox('Error',  error);
 }
 
 init();

@@ -61,19 +61,20 @@
 			         | Index
 
 			  Index  = Pri Sub+                  -- idx
-			         | Type
+			         | Call
 			  Sub    = "." ident                 -- ident
 			         | "." index                 -- index
 			         | ".(" Or ")"               -- expr
 
-			  Type   = label Def+                -- args
-			         | Call
+			  Call   = Type  Type+               -- args
+			         | Type
 
-			  Call   = Pri   Def+                -- args
+			  Type   = label Def+                -- args
 			         | Def
 
 			  Def    = "fun" ident* "->" Or      -- fun
 			         | "set" ident  "="  Or      -- set
+			         | "set" Index  "="  Or      -- upd
 			         | "as"  ident*       ":" Or -- as
 			         | "def" ident ident* ":" Or -- def
 			         | "match" Or  "with" Case+  -- match
@@ -138,6 +139,13 @@
 		<!--
 		<h1>Types and arrays</h1>
 		<script src="lang.js">
+			print Foo 123;
+		</script>
+		-->
+
+		<!--
+		<h1>Types and arrays</h1>
+		<script src="lang.js">
 			print ( Foo             );
 			print ( Foo 123         );
 			print ( Foo (Bar 456)   );
@@ -153,11 +161,100 @@
 		</script>
 		-->
 
+		<!--
 		<h1>Indexing</h1>
 		<script src="lang.js">
-			set lst = ["zero","one","two","three"];
-			print (lst.0);
+			set lst  = ["zero","one","two","three"];
+			set obj  = [zero:0, one:1, two:2];
+			set nlst = [lst, obj];
+			set nobj = [zero: lst, one: obj];
+
+			set lst.1      = "ONE!";
+			set nlst.1.one = "111";
+
+			print (lst.1);
+			print (lst.(1+1));
+			print (obj.zero);
+			print (nlst.1.one);
+			print (nobj.zero.0);
 		</script>
+		-->
+
+		<!--
+		<h1>Closures</h1>
+		<script src="lang.js">
+			def update lst: {
+				set lst.4 = "four";
+				lst;
+			};
+			set lst = ["zero","one","two","three"];
+			set dup = update lst;
+			print lst;
+			print dup;
+		</script>
+		-->
+
+		<!--
+		<h1>Simple lists</h1>
+		<script src="lang.js">
+			set a = [ val: "a" ];
+			set b = [ val: "b" ];
+			set c = [ val: "c" ];
+
+			set a.next = b;
+			set b.next = c;
+			set c.next = a;
+
+			print (a.val);
+			print (a.next.val);
+			print (a.next.next.val);
+			print (a.next.next.next.val);
+
+			set t = "end";
+			set t = [ next: t ];
+			set t = [ next: t ];
+
+			print (t);
+			print (t.next);
+			print (t.next.next);
+		</script>
+		-->
+
+		<!--
+		<h1>Data functions</h1>
+		<script src="lang.js">
+			def list: {
+				set head = None;
+
+				fun mesg -> match mesg with
+					| Push val -> {
+						set head = [
+							val:  val,
+							next: head,
+						];
+						val; }
+					| Pop -> match head with
+						| None -> None
+						| list -> {
+							set val  = head.val;
+							set head = head.next;
+							val; }
+					| Get -> match head with
+						| None -> None
+						| list -> list.val;
+			};
+
+			set nums = list();
+			set strs = list();
+
+			nums(Push 1); strs(Push "one");
+			nums(Push 2); strs(Push "two");
+
+			print ((nums Pop) + " -> " + (strs Pop));
+			print ((nums Pop) + " -> " + (strs Pop));
+			print ((nums Pop) + " -> " + (strs Pop));
+		</script>
+		-->
 
 		<!--
 		<h1>Records</h1>
@@ -241,18 +338,17 @@
 
 
 			set nums = range 2 4;
-			set dbls = map nums as item: item * 2;
-			set both = zip nums dbls;
-
-			foreach both as arr:
-				match arr with
-					| [x, y] -> print ("x="+x+", y="+y);
-
 			foreach nums as num:
 				print ("num: " + num);
 
+			set dbls = map nums as item: item * 2;
 			foreach dbls as dbl:
 				print ("dbl: " + dbl);
+
+			set both = zip nums dbls;
+			foreach both as arr:
+				match arr with
+					| [x, y] -> print ("x="+x+", y="+y);
 		</script>
 		-->
 
