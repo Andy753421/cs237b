@@ -1,0 +1,11 @@
+Todo:
+  - doubly linked list
+    - data is c-like, within a function
+  - cyclic data structures (graphs)
+
+list      = []
+list.next = 0
+list.prev = 1
+
+
+# vim: ft=inside
