@@ -3934,9 +3934,8 @@ exports.unescapeChar = function(s) {
 // Pretty-printing of strings
 
 exports.toStringLiteral = function(str) {
-  if (typeof str !== 'string') {
-    throw new Error('toStringLiteral only works on strings');
-  }
+  if (typeof str !== 'string')
+  	  str = str.toString();
   var hasSingleQuotes = str.indexOf("'") >= 0;
   var hasDoubleQuotes = str.indexOf('"') >= 0;
   var delim = hasSingleQuotes && !hasDoubleQuotes ? '"' : "'";

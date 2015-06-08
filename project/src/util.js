@@ -101,7 +101,7 @@ function pp(node, prefix) {
 }
 
 function addbox(title, text, lang, edit) {
-	if (text === undefined) return;
+	if (text === undefined) text = '';
 	if (lang === undefined) lang = undefined;
 	if (edit === undefined) edit = false;
 
@@ -115,8 +115,8 @@ function addbox(title, text, lang, edit) {
 	script.parentNode.appendChild(head);
 
 	/* Create box */
-	var editor = CodeMirror(script.parentNode, {
-		value:         text.replace(/\s*$/, ''),
+	return CodeMirror(script.parentNode, {
+		value:         text,
 		mode:          lang,
 		lineNumbers:   true,
 		lineWrapping:  true,

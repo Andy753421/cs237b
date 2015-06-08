@@ -9,37 +9,62 @@ function print(text) {
 }
 
 /* Start embedding a paste */
+function run(text) {
+	/* Clear global state */
+	output = '';
+
+	/* Run the script */
+	try {
+		var match = grammar.match(text);
+		var tree  = parser(match).run();
+		var value = interp(tree);
+	} catch(e) {
+		var error = e;
+	}
+
+	/* Figure out results */
+	if (match.failed()) {
+		print(match.message);
+	} else {
+		if (error)
+			print("Error: " + error);
+		if (value)
+			print("Result: " + JSON.stringify(value));
+	}
+
+	/* Return output */
+	return {
+		src:  text,
+		tree: pp(tree),
+		mesg: output.replace(/\s*$/, ''),
+	};
+}
+
 function embed() {
 	/* Get current paste information */
 	var scripts = document.getElementsByTagName('script');
 	var script  = scripts[scripts.length-1];
 	var source  = strip_spaces(script.textContent);
-	var strip   = source.replace(/\s*#.*\n/g,'\n')
-	                    .replace(/\s*#.*$/g, '');
 
 	/* Ignore empty code */
-	if (!strip.match(/\S/))
+	if (!source.match(/\S/))
 		return;
 
-	/* Add source box */
-	try {
-		var match   = grammar.match(strip);
-		var tree    = parser(match).run();
-		var val     = interp(tree);
-	} catch(e) {
-		var error   = e;
-	}
+	/* Run the script */
+	var out = run(source);
 
 	/* Output */
-	addbox('Source', source,   'inside', true)
-	addbox('Tree',   pp(tree), 'javascript');
-	if (match.failed()) {
-		addbox('Error', match.message);
-		return;
-	}
-	addbox('Output', output);
-	addbox('Return', JSON.stringify(val));
-	addbox('Error',  error);
+	var box = {
+		src:  addbox('Source', out.src,  'inside', true),
+		tree: addbox('Tree',   out.tree, 'javascript'),
+		mesg: addbox('Output', out.mesg),
+	};
+	box.src.on("change", function() {
+		var text = box.src.getValue();
+		var out  = run(text);
+		box.tree.setValue(out.tree);
+		box.mesg.setValue(out.mesg);
+	});
 }
 
 /* Init */
