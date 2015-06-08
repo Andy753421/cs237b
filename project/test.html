@@ -3,17 +3,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head>
 		<title>Inside Effects</title>
-		<link href="style.css" rel="stylesheet" type="text/css" />
 		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-		<script type="text/javascript" src="lang.js"></script>
-		<script type="text/javascript" src="util.js"></script>
-		<script type="text/javascript" src="embed.js"></script>
-		<script type="text/javascript" src="ohm.js"></script>
-		<script type="text/ohm-js"     src="gram.ohm"></script>
+
+		<link href="lib/codemirror.css" rel="stylesheet" type="text/css" />
+		<link href="src/style.css" rel="stylesheet" type="text/css" />
+
+		<script type="text/javascript" src="lib/codemirror.js"></script>
+		<script type="text/javascript" src="lib/ohm.js"></script>
+		<script type="text/javascript" src="lib/embed.js"></script>
+		<script type="text/javascript" src="src/lang.js"></script>
+		<script type="text/javascript" src="src/util.js"></script>
+		<script type="text/ohm-js"     src="src/gram.ohm"></script>
 	</head>
 	<body>
 		<h1>Basics</h1>
-		<script src="main.js">
+		<script src="src/main.js">
 			# Hello, World
 			print ( "hello: " + 123 ) ;
 
@@ -28,14 +32,14 @@
 
 		<!--
 		<h1>Types and arrays</h1>
-		<script src="main.js">
+		<script src="src/main.js">
 			print Foo 123;
 		</script>
 		-->
 
 		<!--
 		<h1>Types and arrays</h1>
-		<script src="main.js">
+		<script src="src/main.js">
 			print ( Foo             );
 			print ( Foo 123         );
 			print ( Foo (Bar 456)   );
@@ -53,7 +57,7 @@
 
 		<!--
 		<h1>Indexing</h1>
-		<script src="main.js">
+		<script src="src/main.js">
 			set lst  = ["zero","one","two","three"];
 			set obj  = [zero:0, one:1, two:2];
 			set nlst = [lst, obj];
@@ -72,7 +76,7 @@
 
 		<!--
 		<h1>Closures</h1>
-		<script src="main.js">
+		<script src="src/main.js">
 			def update lst: {
 				set lst.4 = "four";
 				lst;
@@ -86,7 +90,7 @@
 
 		<!--
 		<h1>Simple lists</h1>
-		<script src="main.js">
+		<script src="src/main.js">
 			set a = [ val: "a" ];
 			set b = [ val: "b" ];
 			set c = [ val: "c" ];
@@ -112,7 +116,7 @@
 
 		<!--
 		<h1>Data functions</h1>
-		<script src="main.js">
+		<script src="src/main.js">
 			def list: {
 				set head = None;
 
@@ -148,7 +152,7 @@
 
 		<!--
 		<h1>Records</h1>
-		<script src="main.js">
+		<script src="src/main.js">
 			# Hello, World
 			print ( "hello: " + 123 ) ;
 
@@ -164,7 +168,7 @@
 
 		<!--
 		<h1>Recursion</h1>
-		<script src="main.js">
+		<script src="src/main.js">
 			set sum = fun n ->
 				match n with
 					| 0 -> 0
@@ -175,7 +179,7 @@
 
 		<!--
 		<h1>Counters</h1>
-		<script src="main.js">
+		<script src="src/main.js">
 			set ctr = fun n ->
 				fun -> set n = n + 1;
 			set c1 = ctr 10;
@@ -189,7 +193,7 @@
 
 		<!--
 		<h1>Match</h1>
-		<script src="main.js">
+		<script src="src/main.js">
 			match None with
 				| Some 0 -> print ("some: zero")
 				| Some n -> print ("some: " + n)
@@ -200,7 +204,7 @@
 
 		<!--
 		<h1>Iterators</h1>
-		<script src="main.js">
+		<script src="src/main.js">
 			def range lo hi:
 				fun ->
 					if (lo <= hi) {

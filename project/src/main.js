@@ -31,8 +31,8 @@ function embed() {
 	}
 
 	/* Output */
-	var src = addbox('Source', source,   'nu,ft=inside')
-	//addbox('Tree',   pp(tree), 'nu,ft=javascript');
+	addbox('Source', source,   'inside', true)
+	addbox('Tree',   pp(tree), 'javascript');
 	if (match.failed()) {
 		addbox('Error', match.message);
 		return;

@@ -100,11 +100,10 @@ function pp(node, prefix) {
 		}).join(',') + ']';
 }
 
-function addbox(title, text, modeline) {
-	if (!text)
-		return;
-	if (!modeline)
-		modeline='';
+function addbox(title, text, lang, edit) {
+	if (text === undefined) return;
+	if (lang === undefined) lang = undefined;
+	if (edit === undefined) edit = false;
 
 	/* Get script tag */
 	var scripts = document.getElementsByTagName('script');
@@ -116,12 +115,15 @@ function addbox(title, text, modeline) {
 	script.parentNode.appendChild(head);
 
 	/* Create box */
-	var box  = document.createElement('pre');
-	box.textContent = text;
-	script.parentNode.appendChild(box);
-
-	/* Highlight */
-	var name = 'vpaste_s' + scripts.length;
-	box.className = script.className + ' vpaste ' + name;
-	query_paste('POST', vpaste+'view?'+modeline, text, box, name);
+	var editor = CodeMirror(script.parentNode, {
+		value:         text.replace(/\s*$/, ''),
+		mode:          lang,
+		lineNumbers:   true,
+		lineWrapping:  true,
+		smartIndent:   true,
+		electricChars: true,
+		enterMode:     "flat",
+		lineSpacing:   1.1,
+		readOnly:      !edit,
+	});
 }
