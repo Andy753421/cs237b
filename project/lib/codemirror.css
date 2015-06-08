@@ -116,6 +116,14 @@ div.CodeMirror-overwrite div.CodeMirror-cursor {}
 .cm-s-default .cm-hr {color: #999;}
 .cm-s-default .cm-link {color: #00c;}
 
+.cm-s-default .cm-PreProc    { color: #c000c0; }
+.cm-s-default .cm-Type       { color: #008000; }
+.cm-s-default .cm-Constant   { color: #c00000; }
+.cm-s-default .cm-Statement  { color: #af5f00; }
+.cm-s-default .cm-Operator   { color: #af5f00; }
+.cm-s-default .cm-Identifier { color: #008787; }
+.cm-s-default .cm-Comment    { color: #0000c0; }
+
 .cm-negative {color: #d44;}
 .cm-positive {color: #292;}
 .cm-header, .cm-strong {font-weight: bold;}

@@ -21,15 +21,252 @@
 		<h1>Basics</h1>
 		<script class="split" src="src/main.js">
 			# Hello, World
-			print ( "hello: " + 123 ) ;
+			print "hello, world";
+			print "three:" (1+2);
+			pi*10^2;
+		</script>
 
-			# Simple functions
-			set num = 1;
-			set inc = fun -> set num = num + 1;
+		<h2>Assignment</h2>
+		<script class="split" src="src/main.js">
+			set a = 1;
+			set b = 2;
+			print "three:" (a+b);
+		</script>
 
-			print ( "inc:  " + inc() ) ;
-			print ( "inc:  " + inc() ) ;
-			print ( "num:  " + num   ) ;
+		<h2>Grouping</h2>
+		<script class="split" src="src/main.js">
+			set a =  1 + 2   * 3;
+			set b = (1 + 2)  * 3;
+			set c = {1 + 2;} * 3;
+			print {
+				"Yikes!";
+				a+", "+b+", "+c;
+			};
+		</script>
+
+		<h2>Matching</h2>
+		<script class="split" src="src/main.js">
+			match 1 with
+				| 1 -> "one"
+				| 2 -> "two"
+				| 3 -> "three"
+				| _ -> "my head hurts";
+		</script>
+
+		<h1>Functions</h1>
+		<h2>Anonymous functions</h2>
+		<script class="split" src="src/main.js">
+			set hello = fun first last ->
+				print "Hello," first last;
+
+			hello "Andy" "Spencer";
+		</script>
+
+		<h2>Shorthand notation</h2>
+		<script class="split" src="src/main.js">
+			def goodbye first last:
+				print "Goodbye," first last;
+
+			goodbye "Andy" "Spencer";
+		</script>
+
+		<h2>Closures</h2>
+		<script class="split" src="src/main.js">
+			set first  = "Andy";
+			set last   = "Spencer";
+			set hiandy = fun ->
+				print "Hello," first last;
+			hiandy();
+			(fun f -> f()) hiandy;
+		</script>
+
+		<h2>Recursion</h2>
+		<script class="split" src="src/main.js">
+			def fact n:
+				match n with
+					| 1 -> 1
+					| _ -> n * fact (n-1);
+			print "!3" "=" (fact 3);
+			print "!5" "=" (fact 5);
+		</script>
+
+		<h1>Compound Types</h1>
+		<h2>Lists</h2>
+		<script class="split" src="src/main.js">
+			set me = [ "Andy", "Spencer" ];
+			hello   me.0 me.1;
+			goodbye me.0 me.(2-1);
+		</script>
+
+		<h2>Records</h2>
+		<script class="split" src="src/main.js">
+			set me = [ first: "Andy",
+			           last:  "Spencer" ];
+			hello   me.first me.last;
+			goodbye me.first me.("last");
+		</script>
+
+		<h2>Types</h2>
+		<script class="split" src="src/main.js">
+			set me = Person "Andy" "Spencer";
+			match me with
+				| Person first last ->
+					hello first last;
+		</script>
+
+		<h1>Side Effects</h1>
+		<h2>Assignment</h2>
+		<script class="split" src="src/main.js">
+			set one = 1;
+			set lst = ["zero", "one", "two"];
+
+			set one   = 2;
+			set lst.2 = "five";
+
+			print "one" "=" one;
+			print "two" "=" lst.2;
+		</script>
+
+		<h2>Functions</h2>
+		<script class="split" src="src/main.js">
+			set one = 1;
+			set lst = ["zero", "one", "two"];
+
+			def update: {
+				set one   = 2;
+				set lst.2 = "five";
+			};
+			update();
+
+			print "one" "=" one;
+			print "two" "=" lst.2;
+		</script>
+
+		<h2>State</h2>
+		<script class="split" src="src/main.js">
+			set n = 0;
+			def inc:
+				set n = n+1;
+			print "n =" n "and" inc();
+			print "n =" n "and" inc();
+		</script>
+
+		<script class="split" src="src/main.js">
+			set n = 0;
+			def inc:
+				set n = n+1;
+			def call func:
+				print "n =" func();
+			call inc;
+			call inc;
+		</script>
+
+		<script class="split" src="src/main.js">
+			set ctr = fun n ->
+				fun -> set n = n + 1;
+			set c1 = ctr 10;
+			set c2 = ctr 20;
+
+			print "c1:" c1() "->" c1() "->" c1();
+			print "c2:" c2() "->" c2() "->" c2();
+		</script>
+
+		<h1>Examples</h1>
+		<h2>Cyclic data structures</h2>
+		<script class="split" src="src/main.js">
+			set a = [ val: "a" ];
+			set b = [ val: "b" ];
+			set c = [ val: "c" ];
+
+			set a.next = b;
+			set b.next = c;
+			set c.next = a;
+
+			print a.val           "->"
+			      a.next.val      "->"
+			      a.next.next.val "->"
+			      a.next.next.next.val;
+		</script>
+
+		<h2>Data functions</h2>
+		<script class="split" src="src/main.js">
+			def stack: {
+				set head = None;
+
+				fun mesg -> match mesg with
+					| Push val -> {
+						set head = [
+							val:  val,
+							next: head,
+						];
+						val; }
+					| Pop -> match head with
+						| None -> "Empty"
+						| item -> {
+							set val  = head.val;
+							set head = head.next;
+							val; };
+			};
+
+			set nums = stack();
+			set strs = stack();
+
+			nums Push 1;
+			nums Push 2;
+
+			strs Push "one";
+			strs Push "two";
+
+			print (nums Pop) "->" (strs Pop);
+			print (nums Pop) "->" (strs Pop);
+			print (nums Pop) "->" (strs Pop);
+		</script>
+
+		<h2>Iterators and function composition</h2>
+		<script class="split" src="src/main.js">
+			# Iterator functions
+			def range lo hi: fun ->
+				match lo <= hi with
+					| true  ->  {
+						set out = lo;
+						set lo  = lo+1;
+						Some out; }
+					| false -> None;
+
+			def map iter body: fun ->
+				match iter() with
+					| Some x -> Some (body x)
+					| None   -> None;
+
+			def zip a b: fun ->
+				match [a(), b()] with
+					| [Some x, Some y] -> Some [x, y]
+					| [None,   None  ] -> None;
+
+			def foreach iter body:
+				match iter() with
+					| Some x -> {
+						body x;
+						foreach iter body; }
+					| None   -> "";
+
+			# Define some lazy iterators
+			set nums = range 2 4;
+			set dbls = map nums
+				fun item -> item * 2;
+			set both = zip nums dbls;
+
+			# Time to print them out
+			foreach nums as num:
+				print "num:" num;
+
+			foreach dbls as dbl:
+				print "dbl:" dbl;
+
+			foreach both as arr:
+				match arr with
+					| [x, y] ->
+						print ("x="+x) ("y="+y);
 		</script>
 	</body>
 </html>

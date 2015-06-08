@@ -47,19 +47,19 @@ Inside {
 	Un      = "+" Un                    -- pos
 	        | "-" Un                    -- neg
 	        | "!" Un                    -- not
-	        | Index
-
-	Index   = Pri Sub+                  -- idx
 	        | Call
-	Sub     = "." ident                 -- ident
-	        | "." index                 -- index
-	        | ".(" Or ")"               -- expr
 
 	Call    = Type  Type+               -- args
 	        | Type
 
-	Type    = label Def+                -- args
+	Type    = label Index+              -- args
+	        | Index
+
+	Index   = Pri Sub+                  -- idx
 	        | Def
+	Sub     = "." ident                 -- ident
+	        | "." index                 -- index
+	        | ".(" Or ")"               -- expr
 
 	Def     = "fun" ident* "->" Or      -- fun
 	        | "set" ident  "="  Or      -- set
@@ -103,10 +103,10 @@ Inside {
 	        | "\\u" hexDigit hexDigit hexDigit hexDigit  -- unicodeEscape
 	        | "\\" _                                     -- escape
 
-	kword   = "match"
-	        | "with"
-	        | "fun"
-	        | "as"
-	        | "set"
-	        | "def"
+	kword   = "match" space
+	        | "with"  space
+	        | "fun"   space
+	        | "as"    space
+	        | "set"   space
+	        | "def"   space
 }

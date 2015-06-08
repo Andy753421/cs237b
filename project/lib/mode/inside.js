@@ -11,15 +11,20 @@
 })(function(CodeMirror) {
 "use strict";
 
+var inIdent = false;
+
 CodeMirror.defineMode('inside', function(_config, parserConfig) {
   var words = {
-    'as':    'keyword',
-    'def':   'keyword',
-    'set':   'keyword',
-    'fun':   'keyword',
-    'if':    'keyword',
-    'match': 'keyword',
-    'with':  'keyword',
+    'as':    'Statement',
+    'def':   'Statement',
+    'set':   'Statement',
+    'fun':   'Statement',
+    'if':    'Statement',
+    'match': 'Statement',
+    'with':  'Statement',
+    'true':  'Constant',
+    'false': 'Constant',
+    'null':  'Constant',
   };
 
   function tokenBase(stream, state) {
@@ -27,7 +32,7 @@ CodeMirror.defineMode('inside', function(_config, parserConfig) {
 
     if (ch == "#") {
       stream.skipToEnd();
-      return "comment";
+      return "Comment";
     }
     if (ch === '"') {
       state.tokenize = tokenString;
@@ -38,14 +43,37 @@ CodeMirror.defineMode('inside', function(_config, parserConfig) {
       if (stream.eat('.')) {
         stream.eatWhile(/[\d]/);
       }
-      return 'number';
+      return 'Number';
     }
-    if ( /[+\-*&%=<>!?|;,()]/.test(ch)) {
-      return 'operator';
+    if (/[A-Z]/.test(ch)) {
+      stream.eatWhile(/\w/);
+      return 'Type';
     }
+    if ( /[+\-*&%=<>!?|:;,()\[\]{}]/.test(ch)) {
+      return 'Operator';
+    }
+
     stream.eatWhile(/\w/);
     var cur = stream.current();
-    return words.hasOwnProperty(cur) ? words[cur] : 'variable';
+    stream.eatWhile(/\s/);
+    var ch  = stream.peek();
+
+    if (ch == ':' || inIdent)
+    	    var type = 'Identifier';
+    else if (words.hasOwnProperty(cur))
+	    var type = words[cur]
+    else
+    	    var type = 'Variable'
+
+    if (cur == "fun") inIdent = true;
+    if (cur == "def") inIdent = true;
+    if (cur == "set") inIdent = true;
+
+    if (ch  == "-")   inIdent = false;
+    if (ch  == ":")   inIdent = false;
+    if (ch  == "=")   inIdent = false;
+
+    return type;
   }
 
   function tokenString(stream, state) {

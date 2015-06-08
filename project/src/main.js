@@ -27,9 +27,9 @@ function run(text) {
 		print(match.message);
 	} else {
 		if (error)
-			print("Error: " + error);
+			print(">> Error: " + error);
 		if (value)
-			print("Result: " + JSON.stringify(value));
+			print(">> " + JSON.stringify(value));
 	}
 
 	/* Return output */

@@ -6,9 +6,17 @@ var builtin = {
 	false: false,
 	null:  null,
 	print: function(str) {
-		if (typeof str != 'string')
-			str = JSON.stringify(str);
-		print(str + '\n');
+		var args = Array.prototype.slice.call(arguments);
+		for (var i in args) {
+			var str = args[i];
+			if (typeof str != 'string')
+				str = JSON.stringify(str);
+			if (i == (args.length-1))
+				str += '\n';
+			else
+				str += ' ';
+			print(str);
+		}
 	},
 	if:    function(cond, t, e) {
 		return cond ? t : e;
@@ -105,7 +113,7 @@ function init_parser(grammar) {
 /* Interpreter */
 function interp(node, env, partial, name) {
 	if (env == undefined)
-		var env = builtin;
+		var env = clone(builtin);
 
 	var e = param(node, env, partial);
 	var n = param(node, env, partial, ['number']);
@@ -138,7 +146,7 @@ function interp(node, env, partial, name) {
 		case 'mul':   return n(1) *  n(2)
 		case 'div':   return n(1) /  n(2)
 
-		case 'pow':   return Math.exp(n(1), n(2))
+		case 'pow':   return Math.pow(n(1), n(2))
 
 		case 'pos':   return + n(1)
 		case 'neg':   return - n(1)
@@ -180,7 +188,12 @@ function matches(value, pattern, binding)
 	// Variables
 	if (pattern[0] === 'var') {
 		var name = pattern[1];
-		if (binding.hasOwnProperty(name)) {
+		if (builtin.hasOwnProperty(name)) {
+			if (builtin[name] === value)
+				return binding;
+			else
+				return false;
+		} else if (binding.hasOwnProperty(name)) {
 			if (binding[name] === value)
 				return binding;
 			else
