@@ -53,17 +53,43 @@ function embed() {
 	/* Run the script */
 	var out = run(source);
 
+	/* Setup the box */
+	if (script.className == "split") {
+		var table = document.createElement('table');
+		var tr1   = document.createElement('tr');
+		var bsrc  = document.createElement('td');
+		var bmesg = document.createElement('td');
+		//var tr2   = document.createElement('tr');
+		//var btree = document.createElement('td');
+
+		script.parentNode.appendChild(table);
+		table.appendChild(tr1);
+		tr1.appendChild(bsrc);
+		tr1.appendChild(bmesg);
+		//table.appendChild(tr2);
+		//tr2.appendChild(btree);
+
+		table.width="100%"
+		bsrc.width="50%"
+		bmesg.width="50%"
+		//btree.colSpan=2;
+	} else {
+		var bsrc  = script.parentNode;
+		var bmesg = script.parentNode;
+		//var btree = script.parentNode;
+	}
+
 	/* Output */
 	var box = {
-		src:  addbox('Source', out.src,  'inside', true),
-		tree: addbox('Tree',   out.tree, 'javascript'),
-		mesg: addbox('Output', out.mesg),
+		src:  addbox(bsrc,  'Source', out.src,  'inside', true),
+		mesg: addbox(bmesg, 'Output', out.mesg),
+		//tree: addbox(btree, 'Tree',   out.tree, 'javascript'),
 	};
 	box.src.on("change", function() {
 		var text = box.src.getValue();
 		var out  = run(text);
-		box.tree.setValue(out.tree);
 		box.mesg.setValue(out.mesg);
+		//box.tree.setValue(out.tree);
 	});
 }
 

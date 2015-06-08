@@ -21,5 +21,9 @@ h2 {
 	border:          solid 1px #aaaaff;
 	margin-left:     1.5em;
 	border-radius:   0.33em;
-	height:          auto;
+}
+
+td {
+	position:        relative;
+	vertical-align:  top;
 }

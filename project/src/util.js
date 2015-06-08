@@ -100,7 +100,7 @@ function pp(node, prefix) {
 		}).join(',') + ']';
 }
 
-function addbox(title, text, lang, edit) {
+function addbox(par, title, text, lang, edit) {
 	if (text === undefined) text = '';
 	if (lang === undefined) lang = undefined;
 	if (edit === undefined) edit = false;
@@ -112,10 +112,10 @@ function addbox(title, text, lang, edit) {
 	/* Create header */
 	var head = document.createElement('h2');
 	head.textContent = title;
-	script.parentNode.appendChild(head);
+	par.appendChild(head);
 
 	/* Create box */
-	return CodeMirror(script.parentNode, {
+	return CodeMirror(par, {
 		value:         text,
 		mode:          lang,
 		lineNumbers:   true,
