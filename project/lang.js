@@ -1,25 +1,28 @@
 /* Globals */
-var constants = {pi: Math.PI, e: Math.E};
-var grammar   = null;
-var parser    = null;
-var output    = '';
-
-/* Init */
-function init() {
-	if (grammar && parser)
-		return
-
-	/* Initialize grammar */
-	var scripts = document.getElementsByTagName('script');
-	for (var i=0; i<scripts.length; i++) {
-		if (scripts[i].type != 'text/ohm-js')
-			continue
-		grammar = ohm.grammarFromScriptElement(scripts[i]);
-		break;
+var builtin = {
+	pi:    Math.PI,
+	e:     Math.E,
+	true:  true,
+	false: false,
+	null:  null,
+	print: function(str) {
+		if (typeof str != 'string')
+			str = JSON.stringify(str);
+		print(str + '\n');
+	},
+	if:    function(cond, t, e) {
+		return cond ? t : e;
 	}
+};
 
-	/* Initialize interpreter */
-	parser = grammar.semantics().addOperation('run', {
+/* Init grammar */
+function init_grammar(tag) {
+	return ohm.grammarFromScriptElement(tag);
+}
+
+/* Init parser */
+function init_parser(grammar) {
+	return grammar.semantics().addOperation('run', {
 		Exp_seq:   function(x)         { return [ 'seq',   x.run()            ] },
 		Seq_seq:   function(x,_)       { return x.run()                         },
 
@@ -99,6 +102,68 @@ function init() {
 	});
 }
 
+/* Interpreter */
+function interp(node, env, partial, name) {
+	if (env == undefined)
+		var env = builtin;
+
+	var e = param(node, env, partial);
+	var n = param(node, env, partial, ['number']);
+	var s = param(node, env, partial, ['string']);
+	var b = param(node, env, partial, ['boolean']);
+	var v = param(node, env, partial, ['number', 'boolean', 'string']);
+	var f = param(node, env, partial, ['function', 'closure']);
+	var a = function (n) { return map(node[n], interp, env, partial); };
+	var h = function (n) { return map(node[n], interp, env, partial); };
+
+	//console.log('interp: ' + node);
+	//console.log('        ' + JSON.stringify(env));
+	switch (node[0]) {
+		case 'seq':   return tail(a(1));
+
+		case 'or':    return b(1) || b(2)
+		case 'and':   return b(1) && b(2)
+
+		case 'eq':    return e(1) == e(2)
+		case 'ne':    return e(1) != e(2)
+
+		case 'gt':    return n(1) >  n(2)
+		case 'lt':    return n(1) <  n(2)
+		case 'ge':    return n(1) >= n(2)
+		case 'le':    return n(1) <= n(2)
+
+		case 'add':   return e(1) +  e(2)
+		case 'sub':   return n(1) -  n(2)
+
+		case 'mul':   return n(1) *  n(2)
+		case 'div':   return n(1) /  n(2)
+
+		case 'pow':   return Math.exp(n(1), n(2))
+
+		case 'pos':   return + n(1)
+		case 'neg':   return - n(1)
+		case 'not':   return ! b(1)
+
+		case 'index': return index(e(1), a(2))
+		case 'type':  return [node[1]].concat(a(2))
+		case 'call':  return call(f(1), node[2], env)
+
+		case 'fun':   return closure(node[1], node[2], env, name);
+		case 'set':   return set(node[1], node[2], env);
+		case 'upd':   return set(node[1], node[2], env);
+		case 'match': return match(e(1), node[2], env);
+
+		case 'list':  return a(1);
+		case 'hash':  return h(1);
+		case 'var':   return get(node[1], env, partial);
+		case 'num':   return node[1]
+		case 'str':   return node[1]
+
+		default:      throw  'Unknown node: ' + JSON.stringify(node[0])
+	}
+}
+
+/* Helper Functions */
 function matches(value, pattern, binding)
 {
 	//console.log('matches: ' + pp(value) + ' ?= ' + pp(pattern));
@@ -260,115 +325,3 @@ function closure(params, code, env, name) {
 			cenv[k] = clone(env[k]);
 	return ['closure', params, code, cenv, name];
 }
-
-function interp(node, env, partial, name) {
-	if (env == undefined) {
-		var env = {};
-		env['true']  = true;
-		env['false'] = false;
-		env['null']  = null;
-		env['print'] = function(str){
-			if (typeof str != 'string')
-				str = JSON.stringify(str);
-			output += str + '\n';
-		};
-		env['if'] = function(cond, t, e){
-			if (cond)
-				return t;
-			else
-				return e;
-		};
-	}
-
-	var e = param(node, env, partial);
-	var n = param(node, env, partial, ['number']);
-	var s = param(node, env, partial, ['string']);
-	var b = param(node, env, partial, ['boolean']);
-	var v = param(node, env, partial, ['number', 'boolean', 'string']);
-	var f = param(node, env, partial, ['function', 'closure']);
-	var a = function (n) { return map(node[n], interp, env, partial); };
-	var h = function (n) { return map(node[n], interp, env, partial); };
-
-	//console.log('interp: ' + node);
-	//console.log('        ' + JSON.stringify(env));
-	switch (node[0]) {
-		case 'seq':   return tail(a(1));
-
-		case 'or':    return b(1) || b(2)
-		case 'and':   return b(1) && b(2)
-
-		case 'eq':    return e(1) == e(2)
-		case 'ne':    return e(1) != e(2)
-
-		case 'gt':    return n(1) >  n(2)
-		case 'lt':    return n(1) <  n(2)
-		case 'ge':    return n(1) >= n(2)
-		case 'le':    return n(1) <= n(2)
-
-		case 'add':   return e(1) +  e(2)
-		case 'sub':   return n(1) -  n(2)
-
-		case 'mul':   return n(1) *  n(2)
-		case 'div':   return n(1) /  n(2)
-
-		case 'pow':   return Math.exp(n(1), n(2))
-
-		case 'pos':   return + n(1)
-		case 'neg':   return - n(1)
-		case 'not':   return ! b(1)
-
-		case 'index': return index(e(1), a(2))
-		case 'type':  return [node[1]].concat(a(2))
-		case 'call':  return call(f(1), node[2], env)
-
-		case 'fun':   return closure(node[1], node[2], env, name);
-		case 'set':   return set(node[1], node[2], env);
-		case 'upd':   return set(node[1], node[2], env);
-		case 'match': return match(e(1), node[2], env);
-
-		case 'list':  return a(1);
-		case 'hash':  return h(1);
-		case 'var':   return get(node[1], env, partial);
-		case 'num':   return node[1]
-		case 'str':   return node[1]
-
-		default:      throw  'Unknown node: ' + JSON.stringify(node[0])
-	}
-}
-
-/* Start embedding a paste */
-function start_embed() {
-	/* Get current paste information */
-	var scripts = document.getElementsByTagName('script');
-	var script  = scripts[scripts.length-1];
-	var source  = strip_spaces(script.textContent);
-	var strip   = source.replace(/\s*#.*\n/g,'\n')
-	                    .replace(/\s*#.*$/g, '');
-
-	/* Ignore empty code */
-	if (!strip.match(/\S/))
-		return;
-
-	/* Add source box */
-	try {
-		var match   = grammar.match(strip);
-		var tree    = parser(match).run();
-		var val     = interp(tree);
-	} catch(e) {
-		var error   = e;
-	}
-
-	/* Output */
-	var src = addbox('Source', source,   'nu,ft=inside')
-	//addbox('Tree',   pp(tree), 'nu,ft=javascript');
-	if (match.failed()) {
-		addbox('Error', match.message);
-		return;
-	}
-	addbox('Output', output);
-	addbox('Return', JSON.stringify(val));
-	addbox('Error',  error);
-}
-
-init();
-start_embed();

@@ -5,124 +5,15 @@
 		<title>Inside Effects</title>
 		<link href="style.css" rel="stylesheet" type="text/css" />
 		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+		<script type="text/javascript" src="lang.js"></script>
 		<script type="text/javascript" src="util.js"></script>
 		<script type="text/javascript" src="embed.js"></script>
 		<script type="text/javascript" src="ohm.js"></script>
-		<script type="text/ohm-js">
-			Inside {
-			  Exp    = Seq+                      -- seq
-			  Seq    = Or  ";"                   -- seq
-
-			  List   = LElm+ LExp                -- two
-			         | LElm+                     -- end
-			         | LExp                      -- one
-				 |                           -- nul
-			  LElm   = LExp ","                  -- elm
-			  LExp   = Or                        -- exp
-
-			  Hash   = HElm+ HExp                -- two
-			         | HElm+                     -- end
-			         | HExp                      -- one
-				 |                           -- nul
-			  HElm   = HExp ","                  -- elm
-			  HExp   = ident ":" Or              -- exp
-
-			  Or     = Or  "||" And              -- or
-			         | And
-
-			  And    = And "&&" Eq               -- and
-			         | Eq
-
-			  Eq     = Eq  "==" Cmp              -- eq
-			         | Eq  "!=" Cmp              -- ne
-			         | Cmp
-
-			  Cmp    = Cmp ">"  Add              -- gt
-			         | Cmp "<"  Add              -- lt
-			         | Cmp ">=" Add              -- ge
-			         | Cmp "<=" Add              -- le
-			         | Add
-
-			  Add    = Add "+"  Mul              -- add
-			         | Add "-"  Mul              -- sub
-			         | Mul
-
-			  Mul    = Mul "*"  Pow              -- mul
-			         | Mul "/"  Pow              -- div
-			         | Mul "%"  Pow              -- mod
-			         | Pow
-
-			  Pow    = Pow "^"  Un               -- pow
-			         | Un
-
-			  Un     = "+" Un                    -- pos
-			         | "-" Un                    -- neg
-			         | "!" Un                    -- not
-			         | Index
-
-			  Index  = Pri Sub+                  -- idx
-			         | Call
-			  Sub    = "." ident                 -- ident
-			         | "." index                 -- index
-			         | ".(" Or ")"               -- expr
-
-			  Call   = Type  Type+               -- args
-			         | Type
-
-			  Type   = label Def+                -- args
-			         | Def
-
-			  Def    = "fun" ident* "->" Or      -- fun
-			         | "set" ident  "="  Or      -- set
-			         | "set" Index  "="  Or      -- upd
-			         | "as"  ident*       ":" Or -- as
-			         | "def" ident ident* ":" Or -- def
-			         | "match" Or  "with" Case+  -- match
-			         | Pri                       -- pri
-
-			  Case   = "|" Or "->" Or            -- case
-
-			  Pri    = "(" Or   ")"              -- paren
-			         | "{" Exp  "}"              -- brace
-			         | "[" List "]"              -- list
-			         | "[" Hash "]"              -- hash
-			         | Pri "(" ")"               -- call
-			         | label                     -- type
-			         | ident                     -- var
-			         | number                    -- num
-			         | string                    -- str
-
-			  ident  = ~kword /[a-z_]/ alnum*
-
-			  label  = /[A-Z]/  alnum*
-
-			  index  = digit+                   -- whole
-
-			  number = digit+ "." digit+        -- fract
-			         | digit+                   -- whole
-
-			  string = "\"" char* "\""
-
-			  char   = escape
-			         | ~"\"" ~"\n" _
-
-			  escape = "\\x" hexDigit hexDigit                    -- hexEscape
-			         | "\\u" hexDigit hexDigit hexDigit hexDigit  -- unicodeEscape
-			         | "\\" _                                     -- escape
-
-			  kword  = "match"
-			         | "with"
-			         | "fun"
-			         | "as"
-			         | "set"
-			         | "def"
-			}
-		</script>
+		<script type="text/ohm-js"     src="gram.ohm"></script>
 	</head>
 	<body>
-		<!--
 		<h1>Basics</h1>
-		<script src="lang.js">
+		<script src="main.js">
 			# Hello, World
 			print ( "hello: " + 123 ) ;
 
@@ -134,18 +25,17 @@
 			print ( "inc:  " + inc() ) ;
 			print ( "num:  " + num   ) ;
 		</script>
-		-->
 
 		<!--
 		<h1>Types and arrays</h1>
-		<script src="lang.js">
+		<script src="main.js">
 			print Foo 123;
 		</script>
 		-->
 
 		<!--
 		<h1>Types and arrays</h1>
-		<script src="lang.js">
+		<script src="main.js">
 			print ( Foo             );
 			print ( Foo 123         );
 			print ( Foo (Bar 456)   );
@@ -163,7 +53,7 @@
 
 		<!--
 		<h1>Indexing</h1>
-		<script src="lang.js">
+		<script src="main.js">
 			set lst  = ["zero","one","two","three"];
 			set obj  = [zero:0, one:1, two:2];
 			set nlst = [lst, obj];
@@ -182,7 +72,7 @@
 
 		<!--
 		<h1>Closures</h1>
-		<script src="lang.js">
+		<script src="main.js">
 			def update lst: {
 				set lst.4 = "four";
 				lst;
@@ -196,7 +86,7 @@
 
 		<!--
 		<h1>Simple lists</h1>
-		<script src="lang.js">
+		<script src="main.js">
 			set a = [ val: "a" ];
 			set b = [ val: "b" ];
 			set c = [ val: "c" ];
@@ -222,7 +112,7 @@
 
 		<!--
 		<h1>Data functions</h1>
-		<script src="lang.js">
+		<script src="main.js">
 			def list: {
 				set head = None;
 
@@ -258,7 +148,7 @@
 
 		<!--
 		<h1>Records</h1>
-		<script src="lang.js">
+		<script src="main.js">
 			# Hello, World
 			print ( "hello: " + 123 ) ;
 
@@ -274,7 +164,7 @@
 
 		<!--
 		<h1>Recursion</h1>
-		<script src="lang.js">
+		<script src="main.js">
 			set sum = fun n ->
 				match n with
 					| 0 -> 0
@@ -285,7 +175,7 @@
 
 		<!--
 		<h1>Counters</h1>
-		<script src="lang.js">
+		<script src="main.js">
 			set ctr = fun n ->
 				fun -> set n = n + 1;
 			set c1 = ctr 10;
@@ -299,7 +189,7 @@
 
 		<!--
 		<h1>Match</h1>
-		<script src="lang.js">
+		<script src="main.js">
 			match None with
 				| Some 0 -> print ("some: zero")
 				| Some n -> print ("some: " + n)
@@ -310,7 +200,7 @@
 
 		<!--
 		<h1>Iterators</h1>
-		<script src="lang.js">
+		<script src="main.js">
 			def range lo hi:
 				fun ->
 					if (lo <= hi) {

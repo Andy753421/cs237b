@@ -3934,11 +3934,9 @@ exports.unescapeChar = function(s) {
 // Pretty-printing of strings
 
 exports.toStringLiteral = function(str) {
-  //if (typeof str !== 'string') {
-  //  throw new Error('toStringLiteral only works on strings');
-  //}
-  if (typeof str !== 'string')
-  	  str = str.toString();
+  if (typeof str !== 'string') {
+    throw new Error('toStringLiteral only works on strings');
+  }
   var hasSingleQuotes = str.indexOf("'") >= 0;
   var hasDoubleQuotes = str.indexOf('"') >= 0;
   var delim = hasSingleQuotes && !hasDoubleQuotes ? '"' : "'";
@@ -4231,6 +4229,7 @@ function isArrayLike(obj) {
 // TODO: just use the jQuery thing
 function load(url) {
   var req = new XMLHttpRequest();
+  req.overrideMimeType('text/plain');
   req.open('GET', url, false);
   try {
     req.send();
@@ -4477,7 +4476,8 @@ function getScriptElementContents(el) {
   if (el.type !== 'text/ohm-js') {
     throw new Error('Expected a script tag with type="text/ohm-js", got ' + el);
   }
-  return el.getAttribute('src') ? load(el.getAttribute('src')) : el.innerHTML;
+  return el.getAttribute('src')  ? load(el.getAttribute('src'))  :
+         el.getAttribute('href') ? load(el.getAttribute('href')) : el.innerHTML;
 }
 
 function grammar(source, optNamespace) {
