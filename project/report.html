@@ -94,16 +94,16 @@
 		<h2>Lists</h2>
 		<script class="split" src="src/main.js">
 			set me = [ "Andy", "Spencer" ];
-			hello   me.0 me.1;
-			goodbye me.0 me.(2-1);
+			print me.0 me.1;
+			print me.0 me.(2-1);
 		</script>
 
 		<h2>Records</h2>
 		<script class="split" src="src/main.js">
 			set me = [ first: "Andy",
 			           last:  "Spencer" ];
-			hello   me.first me.last;
-			goodbye me.first me.("last");
+			print me.first me.last;
+			print me.first me.("last");
 		</script>
 
 		<h2>Types</h2>
@@ -111,7 +111,7 @@
 			set me = Person "Andy" "Spencer";
 			match me with
 				| Person first last ->
-					hello first last;
+					print first last;
 		</script>
 
 		<h1>Side Effects</h1>

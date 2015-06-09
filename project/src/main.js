@@ -89,7 +89,7 @@ function embed() {
 		var text = box.src.getValue();
 		var out  = run(text);
 		box.mesg.setValue(out.mesg);
-		//box.tree.setValue(out.tree);
+		box.tree.setValue(out.tree);
 	});
 }
 

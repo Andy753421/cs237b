@@ -35,8 +35,8 @@ function tail(arr) {
 
 function clone(obj) {
 	if (obj instanceof Array) {
-		if (obj[0] == "closure")
-			return [ "closure", obj[1], obj[2], clone(obj[3]), obj[4] ];
+		if (obj[0] == "Closure")
+			return [ "Closure", obj[1], obj[2], clone(obj[3]), obj[4] ];
 		var out = [];
 		for (var i in obj)
 			out[i] = clone(obj[i]);
@@ -80,16 +80,16 @@ function pp(node, prefix) {
 	var pad = prefix+'    ';
 	if (!(node instanceof Array))
 		return JSON.stringify(node);
-	if (node[0] == 'fun')
+	if (node[0] == 'Fun')
 		return '['+pp(node[0])+','+pp(node[1])+',\n' +
 			pad+pp(node[2],pad) + ']';
-	if (node[0] == 'seq')
+	if (node[0] == 'Seq')
 		return '['+pp(node[0])+',[\n' +
 			node[1].map(function (n) {
 				return pad+pp(n,pad);
 			}).join(',\n') +
 		']]';
-	if (node[0] == 'match')
+	if (node[0] == 'Match')
 		return '['+pp(node[0])+','+pp(node[1])+',\n' +
 			node[2].map(function (n) {
 				return pad+pp(n,pad);
@@ -110,9 +110,9 @@ function addbox(par, title, text, lang, edit) {
 	var script  = scripts[scripts.length-1];
 
 	/* Create header */
-	//var head = document.createElement('h2');
-	//head.textContent = title;
-	//par.appendChild(head);
+	var head = document.createElement('h2');
+	head.textContent = title;
+	par.appendChild(head);
 
 	/* Create box */
 	return CodeMirror(par, {
