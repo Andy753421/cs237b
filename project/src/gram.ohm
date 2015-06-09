@@ -1,76 +1,81 @@
 Inside {
 	Exp     = Seq+                      -- seq
 	Seq     = Or  ";"                   -- seq
-
+                                            
 	List    = LElm+ LExp                -- two
 	        | LElm+                     -- end
 	        | LExp                      -- one
 	        |                           -- nul
 	LElm    = LExp ","                  -- elm
 	LExp    = Or                        -- exp
-
+                                            
 	Hash    = HElm+ HExp                -- two
 	        | HElm+                     -- end
 	        | HExp                      -- one
 	        |                           -- nul
 	HElm    = HExp ","                  -- elm
 	HExp    = ident ":" Or              -- exp
-
+                                            
 	Or      = Or  "||" And              -- or
-	        | And
-
+	        | And                       
+                                            
 	And     = And "&&" Eq               -- and
-	        | Eq
-
+	        | Eq                        
+                                            
 	Eq      = Eq  "==" Cmp              -- eq
 	        | Eq  "!=" Cmp              -- ne
-	        | Cmp
-
+	        | Cmp                       
+                                            
 	Cmp     = Cmp ">"  Add              -- gt
 	        | Cmp "<"  Add              -- lt
 	        | Cmp ">=" Add              -- ge
 	        | Cmp "<=" Add              -- le
-	        | Add
-
+	        | Add                       
+                                            
 	Add     = Add "+"  Mul              -- add
 	        | Add "-"  Mul              -- sub
-	        | Mul
-
+	        | Mul                       
+                                            
 	Mul     = Mul "*"  Pow              -- mul
 	        | Mul "/"  Pow              -- div
 	        | Mul "%"  Pow              -- mod
-	        | Pow
-
+	        | Pow                       
+                                            
 	Pow     = Pow "^"  Un               -- pow
-	        | Un
-
+	        | Un                        
+                                            
 	Un      = "+" Un                    -- pos
 	        | "-" Un                    -- neg
 	        | "!" Un                    -- not
-	        | Call
-
+	        | Call                      
+                                            
 	Call    = Type  Type+               -- args
-	        | Type
-
+	        | Type                      
+                                            
 	Type    = label Index+              -- args
-	        | Index
-
+	        | Index                     
+                                            
 	Index   = Pri Sub+                  -- idx
-	        | Def
+	        | Def                       
 	Sub     = "." ident                 -- ident
 	        | "." index                 -- index
 	        | ".(" Or ")"               -- expr
-
+                                            
 	Def     = "fun" ident* "->" Or      -- fun
 	        | "set" ident  "="  Or      -- set
 	        | "set" Index  "="  Or      -- upd
 	        | "as"  ident*       ":" Or -- as
 	        | "def" ident ident* ":" Or -- def
 	        | "match" Or  "with" Case+  -- match
+	        | "if" Cond Body            -- if   
+	        | "while" Cond Body         -- while
 	        | Pri                       -- pri
-
+                                            
 	Case    = "|" Or "->" Or            -- case
-
+	Cond    = "(" Or ")"                -- cond
+	Body    = Or "else" Or              -- else
+	        | Or                        -- then
+                                            
 	Pri     = "(" Or   ")"              -- paren
 	        | "{" Exp  "}"              -- brace
 	        | "[" List "]"              -- list
@@ -81,9 +86,9 @@ Inside {
 	        | number                    -- num
 	        | string                    -- str
 
-	ident   = ~kword /[a-z_]/ alnum*
+	ident   = ~kword /[_a-z]/ /[_0-9a-zA-Z]/*
 
-	label   = /[A-Z]/  alnum*
+	label   = /[A-Z]/ /[_0-9a-zA-Z]/*
 
 	index   = digit+                   -- whole
 
@@ -109,4 +114,7 @@ Inside {
 	        | "as"    space
 	        | "set"   space
 	        | "def"   space
+	        | "while" space
+	        | "if"    space
+	        | "else"  space
 }

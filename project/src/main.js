@@ -16,7 +16,7 @@ function run(text) {
 	/* Run the script */
 	try {
 		var match = grammar.match(text);
-		var tree  = parser(match).run();
+		var tree  = parser(match).ast();
 		var value = interp(tree);
 	} catch(e) {
 		var error = e;
@@ -76,14 +76,14 @@ function embed() {
 	} else {
 		var bsrc  = script.parentNode;
 		var bmesg = script.parentNode;
-		//var btree = script.parentNode;
+		var btree = script.parentNode;
 	}
 
 	/* Output */
 	var box = {
 		src:  addbox(bsrc,  'Source', out.src,  'inside', true),
 		mesg: addbox(bmesg, 'Output', out.mesg),
-		//tree: addbox(btree, 'Tree',   out.tree, 'javascript'),
+		tree: addbox(btree, 'Tree',   out.tree, 'javascript'),
 	};
 	box.src.on("change", function() {
 		var text = box.src.getValue();
