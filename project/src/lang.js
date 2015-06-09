@@ -111,7 +111,7 @@ function init_parser(grammar) {
 		index:     function(_)         { return parseInt(this.interval.contents)   },
 		label:     function(_,_)       { return this.interval.contents             },
 		number:    function(_)         { return parseFloat(this.interval.contents) },
-		string:    function(_,e,_)     { return e.interval.contents                },
+		string:    function(_,e,_)     { return eval('"'+e.interval.contents+'"')  },
 
 		_many:     ohm.actions.makeArray,
 		_default:  ohm.actions.passThrough

@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>Inside Effects</title>
+		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+
+		<link href="lib/codemirror.css" rel="stylesheet" type="text/css" />
+		<link href="src/style.css" rel="stylesheet" type="text/css" />
+
+		<script type="text/javascript" src="lib/codemirror.js"></script>
+		<script type="text/javascript" src="lib/mode/javascript.js"></script>
+		<script type="text/javascript" src="lib/mode/inside.js"></script>
+		<script type="text/javascript" src="lib/ohm.js"></script>
+		<script type="text/javascript" src="lib/embed.js"></script>
+		<script type="text/javascript" src="src/lang.js"></script>
+		<script type="text/javascript" src="src/util.js"></script>
+		<script type="text/ohm-js"     src="src/gram.ohm"></script>
+	</head>
+	<body>
+		<h1>Cross Compiler</h1>
+
+		<!--
+			setup   = function()
+			
+			addType = function(name='Point',
+			                   type='Object',
+			                   vars=['x', 'y', ..])
+			
+			addFunc = function(name='add',
+			                   args=['Point', 'Point'],
+			                   func=function(a,b){ new Point(a.x+b.x, a.y+b.y) })
+			
+			alloc   = function(type='Point',
+			                   args=[x,  y])
+			
+			call    = function(name='add',
+			                   args=[p1, p2])
+			
+			done    = function(className, selector, value)
+			
+			up      = function(obj=p1)
+			
+			set     = function(obj=p1,
+			                   var='x',
+			                   val=3)
+			
+			get     = function(obj=p1,
+			                   var='x')
+		-->
+
+		<script src="src/main.js">
+			def iter list: {
+				set idx = 0;
+				fun -> if (i < list.length) {
+					set out = list.(i);
+					set idx = idx + 1;
+					Some out;
+				} None;
+			};
+
+			def map iter fcn:
+				match iter() with
+					| Some out -> Some (fcn out)
+					| None     -> None;
+
+			def join iter sep:
+				match iter() with
+					| Some out -> (out + sep) + join iter sep
+					| None     -> "";
+
+			def collect list fcn:
+				def collect1 list fcn i: {
+					fcn i list.(i);
+					if (i < list.length)
+						(collect1 list fcn (i+1))
+						fcn;
+				}
+				collect1 list fnc 0;
+			}
+
+			# Utilities
+			def List lst:
+				fun mesg ->
+					match mesg with
+						| Map fcn -> lst
+
+			def mapper arr:
+				arr with
+				
+			def map arr fcn:
+				def map1 arr fcn i:
+					if (i < arr.length) {
+						set arr = 
+						set arr.(i) = fcn(arr.(i));
+					}
+					arr
+				arr = map1 arr fcn 0
+				mapn i;
+
+			# Compiler helpers
+			def do_seq body:
+				body;
+
+			def do_index obj idx:
+				null;
+
+			def do_type type body:
+				null;
+
+			def do_call fcn args env:
+				null;
+
+			def do_closure parm body env:
+				null;
+
+			def do_set val env:
+				null;
+
+			def do_match val body env:
+				null;
+
+			def do_get name env partial:
+				null;
+
+			# Compiler main
+			def comp ast:
+				set out = match ast with
+					| Seq   body      -> do_seq body
+
+					| Or    x y       -> (comp x) || (comp y)
+					| And   x y       -> (comp x) && (comp y)
+
+					| Eq    x y       -> (comp x) == (comp y)
+					| Ne    x y       -> (comp x) != (comp y)
+
+					| Gt    x y       -> (comp x) >  (comp y)
+					| Lt    x y       -> (comp x) <  (comp y)
+					| Ge    x y       -> (comp x) >= (comp y)
+					| Le    x y       -> (comp x) <= (comp y)
+
+					| Add   x y       -> (comp x) +  (comp y)
+					| Sub   x y       -> (comp x) -  (comp y)
+
+					| Mul   x y       -> (comp x) *  (comp y)
+					| Div   x y       -> (comp x) /  (comp y)
+
+					| Pos   x         -> + (comp x)
+					| Neg   x         -> - (comp x)
+					| Not   x         -> ! (comp x)
+
+					| Index obj idx   -> do_index (comp obj) (comp idx)
+					| Type  type body -> do_type type (comp body)
+					| Call  fcn args  -> do_call (comp fcn) args env
+
+					| Fun   parm body -> do_closure parm body env
+					| Set   name val  -> do_set name val env
+					| Upd   name val  -> do_set name val env
+					| Match val body  -> do_match (comp val) body env
+
+					| List  items     -> (comp items)
+					| Hash  items     -> (comp items)
+					| Var   name      -> do_get name env partial
+					| Num   num       -> num
+					| Str   str       -> str
+				;
+
+			set src = "\"Hello, World\";";
+			set ast = parse src;
+			set bin = comp ast;
+		</script>
+	</body>
+</html>
