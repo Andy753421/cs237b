@@ -22,152 +22,219 @@
 
 		<!--
 			setup   = function()
-			
+
 			addType = function(name='Point',
 			                   type='Object',
 			                   vars=['x', 'y', ..])
-			
+
 			addFunc = function(name='add',
 			                   args=['Point', 'Point'],
 			                   func=function(a,b){ new Point(a.x+b.x, a.y+b.y) })
-			
+
 			alloc   = function(type='Point',
 			                   args=[x,  y])
-			
+
 			call    = function(name='add',
 			                   args=[p1, p2])
-			
+
 			done    = function(className, selector, value)
-			
+
 			up      = function(obj=p1)
-			
+
 			set     = function(obj=p1,
 			                   var='x',
 			                   val=3)
-			
+
 			get     = function(obj=p1,
 			                   var='x')
 		-->
 
 		<script src="src/main.js">
-			def iter list: {
-				set idx = 0;
-				fun -> if (i < list.length) {
-					set out = list.(i);
-					set idx = idx + 1;
-					Some out;
-				} None;
+			# Utilities
+			def last list:
+				list.(list.length-1);
+
+			def map list fcn: {
+				set i = 0;
+				while (i < list.length) {
+					set item = list.(i);
+					set list.(i) = fcn item;
+					set i = i + 1;
+				};
+				list;
 			};
 
-			def map iter fcn:
-				match iter() with
-					| Some out -> Some (fcn out)
-					| None     -> None;
+			def join list sep: {
+				set i   = 0;
+				set str = "";
+				while (i < list.length) {
+					set str = str + list.(i);
+					if ((i+1) < list.length)
+						set str = str + sep;
+					set i = i + 1;
+				};
+				str;
+			};
 
-			def join iter sep:
-				match iter() with
-					| Some out -> (out + sep) + join iter sep
-					| None     -> "";
+			def escape str: {
+				set out = "";
+				set i = 0;
+				while (i < str.length) {
+					if (str.(i) == "\\" ||
+					    str.(i) == "\"") {
+						set out = out + "\\";
+					};
+					set out = out + str.(i);
+					set i = i + 1;
+				};
+				out;
+			};
 
-			def collect list fcn:
-				def collect1 list fcn i: {
-					fcn i list.(i);
-					if (i < list.length)
-						(collect1 list fcn (i+1))
-						fcn;
-				}
-				collect1 list fnc 0;
-			}
+			def concat a b: {
+				set i = 0;
+				while (i < b.length) {
+					set a.(a.length) = b.(i);
+					set i = i + 1;
+				};
+				a;
+			};
 
-			# Utilities
-			def List lst:
-				fun mesg ->
-					match mesg with
-						| Map fcn -> lst
+			# Compiler
+			def compile ast: {
+				print "  compile:" ast;
 
-			def mapper arr:
-				arr with
-				
-			def map arr fcn:
-				def map1 arr fcn i:
-					if (i < arr.length) {
-						set arr = 
-						set arr.(i) = fcn(arr.(i));
-					}
-					arr
-				arr = map1 arr fcn 0
-				mapn i;
+				# Compiler helpers
+				def do_seq body: {
+					set comps = map body compile;
+					join comps ",\n";
+				};
 
-			# Compiler helpers
-			def do_seq body:
-				body;
+				def do_index obj idx: {
+					set comps = map idx as i:
+						"[" + (compile i) + "]";
+					set idxs = join comps "";
+					"(" + (compile obj) + ")" + idxs;
+				};
 
-			def do_index obj idx:
-				null;
+				def do_type type body: {
+					set comps = map body compile;
+					set types = ["\"" + type + "\""];
+					set full  = concat types comps;
+					"[" + (join full ", ") + "]";
+				};
 
-			def do_type type body:
-				null;
+				def do_list items: {
+					set comps = map items compile;
+					"[" + (join comps ", ") + "]";
+				};
 
-			def do_call fcn args env:
-				null;
+				def do_hash items: {
+					set comps = map items as item:
+						item.0 + ": " + (compile item.1);
+					"{" + (join comps ", ") + "}";
+				};
 
-			def do_closure parm body env:
-				null;
+				def do_call fcn args: {
+					set comps = map args compile;
+					"(" + (compile fcn) + ")(" + (join comps ", ") + ")";
+				};
 
-			def do_set val env:
-				null;
+				def do_fun parm body: {
+					set parms = join parm ",";
+					set bodys = compile body;
+					"function (" + parms + ") {\n" +
+						"\treturn " + bodys + ";\n" +
+					"};";
+				};
 
-			def do_match val body env:
-				null;
+				def do_set name val:
+					"var " + name + " = " + (compile val) + ";";
 
-			def do_get name env partial:
-				null;
+				def do_upd name val:
+					(compile name) + " = " + (compile val) + ";";
 
-			# Compiler main
-			def comp ast:
+				def do_match val body: {
+					set cases = map body as item:
+						"[" + (compile item.0) + ", function(){" +
+							"return " + (compile item.1) +
+						"}]";
+					"match((" + (compile val) + "), [\n" +
+						(join cases ",\n") +
+					"])";
+				};
+
+				def do_get name:
+					name;
+
+				def do_bin l op r:
+					"(" + (compile l) + ") " + op + " (" + (compile r) + ")";
+
+				def do_uny op e:
+					op + " (" + (compile e) + ")";
+
+
+				# Compiler main
 				set out = match ast with
 					| Seq   body      -> do_seq body
 
-					| Or    x y       -> (comp x) || (comp y)
-					| And   x y       -> (comp x) && (comp y)
+					| Or    x y       -> do_bin x "||" y
+					| And   x y       -> do_bin x "&&" y
 
-					| Eq    x y       -> (comp x) == (comp y)
-					| Ne    x y       -> (comp x) != (comp y)
+					| Eq    x y       -> do_bin x "==" y
+					| Ne    x y       -> do_bin x "!=" y
 
-					| Gt    x y       -> (comp x) >  (comp y)
-					| Lt    x y       -> (comp x) <  (comp y)
-					| Ge    x y       -> (comp x) >= (comp y)
-					| Le    x y       -> (comp x) <= (comp y)
+					| Gt    x y       -> do_bin x ">"  y
+					| Lt    x y       -> do_bin x "<"  y
+					| Ge    x y       -> do_bin x ">=" y
+					| Le    x y       -> do_bin x "<=" y
 
-					| Add   x y       -> (comp x) +  (comp y)
-					| Sub   x y       -> (comp x) -  (comp y)
+					| Add   x y       -> do_bin x "+"  y
+					| Sub   x y       -> do_bin x "-"  y
 
-					| Mul   x y       -> (comp x) *  (comp y)
-					| Div   x y       -> (comp x) /  (comp y)
+					| Mul   x y       -> do_bin x "*"  y
+					| Div   x y       -> do_bin x "/"  y
 
-					| Pos   x         -> + (comp x)
-					| Neg   x         -> - (comp x)
-					| Not   x         -> ! (comp x)
+					| Pos   expr      -> do_uny "+" expr
+					| Neg   expr      -> do_uny "-" expr
+					| Not   expr      -> do_uny "!" expr
 
-					| Index obj idx   -> do_index (comp obj) (comp idx)
-					| Type  type body -> do_type type (comp body)
-					| Call  fcn args  -> do_call (comp fcn) args env
+					| Index obj idx   -> do_index obj idx
+					| Type  type body -> do_type  type body
+					| Call  fcn args  -> do_call  fcn args
 
-					| Fun   parm body -> do_closure parm body env
-					| Set   name val  -> do_set name val env
-					| Upd   name val  -> do_set name val env
-					| Match val body  -> do_match (comp val) body env
+					| Fun   parm body -> do_fun   parm body
+					| Set   name val  -> do_set   name val
+					| Upd   name val  -> do_upd   name val
+					| Match val body  -> do_match val body
 
-					| List  items     -> (comp items)
-					| Hash  items     -> (comp items)
-					| Var   name      -> do_get name env partial
+					| List  items     -> do_list  items
+					| Hash  items     -> do_hash  items
+					| Var   name      -> do_get   name
 					| Num   num       -> num
-					| Str   str       -> str
+					| Str   str       -> "\"" + escape(str) + "\""
 				;
+			};
 
-			set src = "\"Hello, World\";";
+			#set src = "a;";
+			#set src = "[1, 2];";
+			#set src = "[a: 1, b: 2];";
+			#set src = "[1, 2].1;";
+			#set src = "[1, [2,3]].1.1;";
+			#set src = "Foo 1 2;";
+			#set src = "fun x -> 1 + 2;";
+			#set src = "set x = 1;";
+			#set src = "set a.1.2 = 3;";
+			#set src = "fcn 1 2;";
+			set src = "match 1 with\n" +
+				"| 1 -> \"one\""   +
+				"| n -> \"some\";";
+			print "src:" src;
+
 			set ast = parse src;
-			set bin = comp ast;
+			print "ast:" ast;
+
+			set bin = compile ast;
+			print "bin:" bin;
 		</script>
 	</body>
 </html>

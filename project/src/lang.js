@@ -43,12 +43,12 @@ function init_parser(grammar) {
 		List_nul:  function()          { return [         ]                     },
 		LElm_elm:  function(x,_)       { return x.ast()                         },
 
-		Hash_two:  function(h,t)       { return extend(smash(h.ast()), t.ast()) },
-		Hash_end:  function(h)         { return smash(h.ast())                  },
-		Hash_one:  function(h)         { return h.ast()                         },
-		Hash_nul:  function()          { return {         }                     },
+		Hash_two:  function(h,t)       { return h.ast().concat([t.ast()])       },
+		Hash_end:  function(h)         { return h.ast()                         },
+		Hash_one:  function(h)         { return [ h.ast() ]                     },
+		Hash_nul:  function()          { return [         ]                     },
 		HElm_elm:  function(x,_)       { return x.ast()                         },
-		HExp_exp:  function(k,_,v)     { return pair(k.ast(), v.ast())          },
+		HExp_exp:  function(k,_,v)     { return [ k.ast(), v.ast() ]            },
 
 		Or_or:     function(x,_,y)     { return [ 'Or',    x.ast(), y.ast()   ] },
 		And_and:   function(x,_,y)     { return [ 'And',   x.ast(), y.ast()   ] },
@@ -130,7 +130,6 @@ function interp(node, env, partial, name) {
 	var v = param(node, env, partial, ['number', 'boolean', 'string']);
 	var f = param(node, env, partial, ['function', 'Closure']);
 	var a = function (n) { return map(node[n], interp, env, partial); };
-	var h = function (n) { return map(node[n], interp, env, partial); };
 
 	//console.log('interp: ' + node);
 	//console.log('        ' + JSON.stringify(env));
@@ -172,8 +171,8 @@ function interp(node, env, partial, name) {
 		case 'While': return loop(node[1], node[2], env);
 
 		case 'List':  return a(1);
-		case 'Hash':  return h(1);
-		case 'Var':   return get(node[1], env, partial);
+		case 'Hash':  return hash(node[1], env, partial, name);
+		case 'Var':   return get(node[1], env, partial, name);
 		case 'Num':   return node[1]
 		case 'Str':   return node[1]
 
@@ -196,7 +195,8 @@ function matches(value, pattern, binding)
 	}
 
 	// Variables
-	if (pattern[0] === 'Var') {
+	if (pattern[0] === 'Var' &&
+	    typeof pattern[1] === "string") {
 		var name = pattern[1];
 		if (builtin.hasOwnProperty(name)) {
 			if (builtin[name] === value)
@@ -315,12 +315,12 @@ function set(name, value, env)
 	throw "Invalid assignment"
 }
 
-function get(name, env, partial)
+function get(name, env, partial, where)
 {
 	if (partial)
 		return ['Var', name];
 	if (!env.hasOwnProperty(name))
-		throw 'Undefined variable: ' + name;
+		throw 'Undefined variable: ' + name + " in [" + where + "]";
 	return env[name];
 }
 
@@ -369,4 +369,15 @@ function closure(params, code, env, name) {
 		if (vars.hasOwnProperty(k))
 			cenv[k] = clone(env[k]);
 	return ['Closure', params, code, cenv, name];
+}
+
+function hash(body, env, partial, name)
+{
+	var out = {};
+	for (var i in body) {
+		var key = body[i][0];
+		var val = body[i][1];
+		out[key] = interp(val, env, partial, name);
+	}
+	return out;
 }
