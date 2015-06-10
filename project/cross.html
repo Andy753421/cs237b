@@ -99,78 +99,99 @@
 				a;
 			};
 
+			def idents ast: {
+				set ids = match ast with
+					| Type type body -> idents body
+					| List items     -> join (map items idents) ","
+					| Var  name      -> [name]
+					| _              -> []
+				;
+				print "  idents:" ast "->" ids;
+				ids;
+			};
+
 			# Compiler
-			def compile ast: {
-				print "  compile:" ast;
+			def compile ast partial: {
+				def rec ast:
+					compile ast partial;
+
+				print "  compile:" partial ast;
 
 				# Compiler helpers
 				def do_seq body: {
-					set comps = map body compile;
+					set comps = map body rec;
 					join comps ",\n";
 				};
 
 				def do_index obj idx: {
 					set comps = map idx as i:
-						"[" + (compile i) + "]";
+						"[" + (rec i) + "]";
 					set idxs = join comps "";
-					"(" + (compile obj) + ")" + idxs;
+					"(" + (rec obj) + ")" + idxs;
 				};
 
 				def do_type type body: {
-					set comps = map body compile;
+					set comps = map body rec;
 					set types = ["\"" + type + "\""];
 					set full  = concat types comps;
 					"[" + (join full ", ") + "]";
 				};
 
 				def do_list items: {
-					set comps = map items compile;
+					set comps = map items rec;
 					"[" + (join comps ", ") + "]";
 				};
 
 				def do_hash items: {
 					set comps = map items as item:
-						item.0 + ": " + (compile item.1);
+						item.0 + ": " + (rec item.1);
 					"{" + (join comps ", ") + "}";
 				};
 
 				def do_call fcn args: {
-					set comps = map args compile;
-					"(" + (compile fcn) + ")(" + (join comps ", ") + ")";
+					set comps = map args rec;
+					"(" + (rec fcn) + ")(" + (join comps ", ") + ")";
 				};
 
 				def do_fun parm body: {
 					set parms = join parm ",";
-					set bodys = compile body;
+					set bodys = rec body;
 					"function (" + parms + ") {\n" +
 						"\treturn " + bodys + ";\n" +
 					"};";
 				};
 
 				def do_set name val:
-					"var " + name + " = " + (compile val) + ";";
+					"var " + name + " = " + (rec val) + ";";
 
 				def do_upd name val:
-					(compile name) + " = " + (compile val) + ";";
+					(rec name) + " = " + (rec val) + ";";
 
 				def do_match val body: {
-					set cases = map body as item:
-						"[" + (compile item.0) + ", function(){" +
-							"return " + (compile item.1) +
+					set cases = map body as item: {
+						set ptrn = (compile item.0 true);
+						set vars = idents item.0;
+						set body = (rec item.1);
+						"["+ptrn+", function("+vars+"){" +
+							"return " + body + ";" +
 						"}]";
-					"match((" + (compile val) + "), [\n" +
+					};
+					"match((" + (rec val) + "), [\n" +
 						(join cases ",\n") +
 					"])";
 				};
 
 				def do_get name:
-					name;
+					if (partial)
+						"Var"
+					else
+						name;
 
 				def do_bin l op r:
-					"(" + (compile l) + ") " + op + " (" + (compile r) + ")";
+					"(" + (rec l) + ") " + op + " (" + (rec r) + ")";
 
 				def do_uny op e:
-					op + " (" + (compile e) + ")";
+					op + " (" + (rec e) + ")";
 
 
 				# Compiler main
@@ -225,15 +246,15 @@
 			#set src = "set x = 1;";
 			#set src = "set a.1.2 = 3;";
 			#set src = "fcn 1 2;";
-			set src = "match 1 with\n" +
-				"| 1 -> \"one\""   +
-				"| n -> \"some\";";
+			#set src = "match 1 with\n" +
+			#	"| 1 -> \"one\""   +
+			#	"| n -> \"some\";";
 			print "src:" src;
 
 			set ast = parse src;
 			print "ast:" ast;
 
-			set bin = compile ast;
+			set bin = compile ast false;
 			print "bin:" bin;
 		</script>
 	</body>
