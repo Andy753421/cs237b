@@ -110,9 +110,11 @@ function addbox(par, title, text, lang, edit) {
 	var script  = scripts[scripts.length-1];
 
 	/* Create header */
-	var head = document.createElement('h2');
-	head.textContent = title;
-	par.appendChild(head);
+	if (title) {
+		var head = document.createElement('h2');
+		head.textContent = title;
+		par.appendChild(head);
+	}
 
 	/* Create box */
 	return CodeMirror(par, {

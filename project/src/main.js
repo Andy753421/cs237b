@@ -59,38 +59,39 @@ function embed() {
 		var tr1   = document.createElement('tr');
 		var bsrc  = document.createElement('td');
 		var bmesg = document.createElement('td');
-		//var tr2   = document.createElement('tr');
-		//var btree = document.createElement('td');
 
 		script.parentNode.appendChild(table);
 		table.appendChild(tr1);
 		tr1.appendChild(bsrc);
 		tr1.appendChild(bmesg);
-		//table.appendChild(tr2);
-		//tr2.appendChild(btree);
 
-		table.width="100%"
-		bsrc.width="50%"
-		bmesg.width="50%"
-		//btree.colSpan=2;
+		table.width = "100%"
+		bsrc.width  = "50%"
+		bmesg.width = "50%"
+	
+		var box = {
+			src:  addbox(bsrc,  false, out.src,  'inside', true),
+			mesg: addbox(bmesg, false, out.mesg),
+		};
+		box.src.on("change", function() {
+			var text = box.src.getValue();
+			var out  = run(text);
+			box.mesg.setValue(out.mesg);
+		});
 	} else {
-		var bsrc  = script.parentNode;
-		var bmesg = script.parentNode;
-		//var btree = script.parentNode;
+		var par = script.parentNode;
+		var box = {
+			src:  addbox(par, 'Source', out.src,  'inside', true),
+			mesg: addbox(par, 'Output', out.mesg),
+			tree: addbox(par, 'Tree',   out.tree, 'javascript'),
+		};
+		box.src.on("change", function() {
+			var text = box.src.getValue();
+			var out  = run(text);
+			box.mesg.setValue(out.mesg);
+			box.tree.setValue(out.tree);
+		});
 	}
-
-	/* Output */
-	var box = {
-		src:  addbox(bsrc,  'Source', out.src,  'inside', true),
-		mesg: addbox(bmesg, 'Output', out.mesg),
-		//tree: addbox(btree, 'Tree',   out.tree, 'javascript'),
-	};
-	box.src.on("change", function() {
-		var text = box.src.getValue();
-		var out  = run(text);
-		box.mesg.setValue(out.mesg);
-		box.tree.setValue(out.tree);
-	});
 }
 
 /* Init */

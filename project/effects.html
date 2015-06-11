@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>Inside Effects</title>
+		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+
+		<link href="lib/codemirror.css" rel="stylesheet" type="text/css" />
+		<link href="src/style.css" rel="stylesheet" type="text/css" />
+
+		<script type="text/javascript" src="lib/codemirror.js"></script>
+		<script type="text/javascript" src="lib/mode/javascript.js"></script>
+		<script type="text/javascript" src="lib/mode/inside.js"></script>
+		<script type="text/javascript" src="lib/ohm.js"></script>
+		<script type="text/javascript" src="lib/embed.js"></script>
+		<script type="text/javascript" src="src/lang.js"></script>
+		<script type="text/javascript" src="src/util.js"></script>
+		<script type="text/ohm-js"     src="src/gram.ohm"></script>
+	</head>
+	<body>
+		<h1>
+			Inside Effects
+		</h1>
+		<h2>
+			<a href="index.html">Intro</a>
+			<a href="language.html">Language</a>
+			<a class="cur" href="effects.html">Effects</a>
+			<a href="analysis.html">Analysis</a>
+			<a href="compiler.html">Compiler</a>
+		</h2>
+		<!--
+			Side Effects
+			  - Assignment
+			  - Functions
+			  - State
+		-->
+		<p>
+			While most of the language is very similar to other
+			languages, the way side effects are handled is
+			slightly different in a number of ways. This page
+			describes the semantics of variable references and some
+			ways they can be used.
+		</p>
+		<h3>Assignment</h3>
+		<p>
+			With inline code, variables can be mutated at will and
+			compound types and closures are treated as references.
+		</p>
+		<script class="split" src="src/main.js">
+			set one   = 1;
+			set lst   = ["zero", "one", "two"];
+
+			set one   = 2;
+			set lst.2 = "five";
+
+			print "one" "=" one;
+			print "two" "=" lst.2;
+		</script>
+
+		<h3>Functions</h3>
+		<p>
+			However, within functions variables are cloned and
+			cannot in any way effect the caller of the function.
+			This is implemented as call-by-value with a deep copy
+			on every parameter. In addition, the environment is
+			cloned when a closure is created. Closures passed as
+			arguments are also deeply copied.
+		</p>
+		<script class="split" src="src/main.js">
+			set one = 1;
+			set lst = ["zero", "one", "two"];
+
+			def update: {
+				set one   = 2;
+				set lst.2 = "five";
+			};
+			update();
+
+			print "one" "=" one;
+			print "two" "=" lst.2;
+		</script>
+
+		<h3>State</h3>
+		<p>
+			Within a function, state is maintained between calls.
+			This allows for the creation of iterator functions, or
+			stateful functions such as counters, filters, etc.
+		</p>
+		<p>
+			A simple counter function, separate copies of <tt>n</tt>
+			are stored for the <tt>inc</tt> closure and the
+			enclosing scope.
+		</p>
+		<script class="split" src="src/main.js">
+			set n = 0;
+			def inc:
+				set n = n+1;
+			print "n =" n "and" inc();
+			print "n =" n "and" inc();
+		</script>
+
+		<p>
+			State is not kept if the closure is passed as an
+			argument because all arguments are call-by-value.
+		</p>
+		<script class="split" src="src/main.js">
+			set n = 0;
+			def inc:
+				set n = n+1;
+			def call func:
+				print "n =" func();
+			call inc;
+			call inc;
+		</script>
+
+		<p>
+			A counter factory function
+		</p>
+		<script class="split" src="src/main.js">
+			def ctr n:
+				fun -> set n = n + 1;
+			set c1 = ctr 10;
+			set c2 = ctr 20;
+
+			print "c1:" c1() "->" c1() "->" c1();
+			print "c2:" c2() "->" c2() "->" c2();
+		</script>
+	</body>
+</html>

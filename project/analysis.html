@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>Inside Effects</title>
+		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+
+		<link href="lib/codemirror.css" rel="stylesheet" type="text/css" />
+		<link href="src/style.css" rel="stylesheet" type="text/css" />
+
+		<script type="text/javascript" src="lib/codemirror.js"></script>
+		<script type="text/javascript" src="lib/mode/javascript.js"></script>
+		<script type="text/javascript" src="lib/mode/inside.js"></script>
+		<script type="text/javascript" src="lib/ohm.js"></script>
+		<script type="text/javascript" src="lib/embed.js"></script>
+		<script type="text/javascript" src="src/lang.js"></script>
+		<script type="text/javascript" src="src/util.js"></script>
+		<script type="text/ohm-js"     src="src/gram.ohm"></script>
+	</head>
+	<body>
+		<h1>
+			Inside Effects
+		</h1>
+		<h2>
+			<a href="index.html">Intro</a>
+			<a href="language.html">Language</a>
+			<a href="effects.html">Effects</a>
+			<a class="cur" href="analysis.html">Analysis</a>
+			<a href="compiler.html">Compiler</a>
+		</h2>
+		<!--
+			Analysis
+			  - Cyclic data structures
+			  - Data functions
+			  - Iterators and function composition
+			  - Cross Compiler
+		-->
+
+		<p>
+			This page discusses some of the challenges faced by a
+			language that wishes to minimize side effects and some
+			possible solutions supported by this implementation. 
+		</p>
+		<h3>Cyclic data structures</h3>
+		<p>
+			Cyclic data structures are difficult it implement
+			without side effects because they create aliasing
+			issues. With "inside effects" they are straightforward
+			when used within a single function because aliasing is
+			allowed locally inside a function body.
+		</p>
+		<p>
+			However, it would still be difficult, or impossible, to
+			implement a cyclic data structure using recursive
+			functions or iterators as described below. In addition,
+			deep copies of cyclic data structures is currently not
+			supported by the interpreter.
+		</p>
+		<script class="split" src="src/main.js">
+			set a = [ val: "a" ];
+			set b = [ val: "b" ];
+			set c = [ val: "c" ];
+
+			set a.next = b;
+			set b.next = c;
+			set c.next = a;
+
+			print a.val           "->"
+			      a.next.val      "->"
+			      a.next.next.val "->"
+			      a.next.next.next.val;
+		</script>
+
+		<h3>Data functions</h3>
+		<p>
+			"Data function" are similar to objects or actors and
+			can provide encapsulation by maintaining state within a
+			closure. Only the desired interface is exposing to the
+			user though a message passing style.
+		</p>
+		<p>
+			One disadvantage to data functions in the "inside"
+			language is that they are copied when passed as
+			arguments, which can results in extra work passing and
+			returning many closures.
+		</p>
+		<p>
+			Here, a stack is implemented that supports
+			<tt>Push</tt> and <tt>Pop</tt> messages.
+		</p>
+		<script class="split" src="src/main.js">
+			def stack: {
+				set head = None;
+
+				fun mesg -> match mesg with
+					| Push val -> {
+						set head = [
+							val:  val,
+							next: head,
+						];
+						val; }
+					| Pop -> match head with
+						| None -> "Empty"
+						| item -> {
+							set val  = head.val;
+							set head = head.next;
+							val; };
+			};
+
+			set nums = stack();
+			set strs = stack();
+
+			nums Push 1;
+			nums Push 2;
+
+			strs Push "one";
+			strs Push "two";
+
+			print (nums Pop) "->" (strs Pop);
+			print (nums Pop) "->" (strs Pop);
+			print (nums Pop) "->" (strs Pop);
+		</script>
+
+		<h3>Iterators and function composition</h3>
+		<p>
+			Iterators can be implemented as functions that return
+			successive elements on each call. This allows the easy
+			creation of a number of lazy composition functions that
+			can support infinite lists.
+		</p>
+		<p>
+			"Inside" effects are particularly useful here because
+			the iterator is not accidentally shared when composed.
+			For example, mapping a range does not consume the range
+			but instead just returns a new iterator.
+		</p>
+		<script class="split" src="src/main.js">
+			# Iterator functions
+			def range lo hi: fun ->
+				match lo <= hi with
+					| true  ->  {
+						set out = lo;
+						set lo  = lo+1;
+						Some out; }
+					| false -> None;
+
+			def map iter body: fun ->
+				match iter() with
+					| Some x -> Some (body x)
+					| None   -> None;
+
+			def zip a b: fun ->
+				match [a(), b()] with
+					| [Some x, Some y] -> Some [x, y]
+					| [None,   None  ] -> None;
+
+			def foreach iter body:
+				match iter() with
+					| Some x -> {
+						body x;
+						foreach iter body; }
+					| None   -> "";
+
+			# Define some lazy iterators
+			set nums = range 2 4;
+			set dbls = map nums
+				fun item -> item * 2;
+			set both = zip nums dbls;
+
+			# Time to print them out
+			foreach nums as num:
+				print "num:" num;
+
+			foreach dbls as dbl:
+				print "dbl:" dbl;
+
+			foreach both as arr:
+				match arr with
+					| [x, y] ->
+						print ("x="+x) ("y="+y);
+		</script>
+	</body>
+</html>

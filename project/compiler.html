@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>Inside Effects</title>
+		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+
+		<link href="lib/codemirror.css" rel="stylesheet" type="text/css" />
+		<link href="src/style.css" rel="stylesheet" type="text/css" />
+
+		<script type="text/javascript" src="lib/codemirror.js"></script>
+		<script type="text/javascript" src="lib/mode/javascript.js"></script>
+		<script type="text/javascript" src="lib/mode/inside.js"></script>
+		<script type="text/javascript" src="lib/ohm.js"></script>
+		<script type="text/javascript" src="lib/embed.js"></script>
+		<script type="text/javascript" src="src/lang.js"></script>
+		<script type="text/javascript" src="src/util.js"></script>
+		<script type="text/ohm-js"     src="src/gram.ohm"></script>
+	</head>
+	<body>
+		<h1>
+			Inside Effects
+		</h1>
+		<h2>
+			<a href="index.html">Intro</a>
+			<a href="language.html">Language</a>
+			<a href="effects.html">Effects</a>
+			<a href="analysis.html">Analysis</a>
+			<a class="cur" href="compiler.html">Compiler</a>
+		</h2>
+
+		<p>
+			As an experiment, a source to source compiler was
+			implemented that translates from the "inside" language
+			to JavaScript. Eventually the compiler should be able
+			to compile itself, however it is currently not yet
+			feature complete.
+		</p>
+		<p>
+			In general, the compiler was implemented in a
+			functional style without side effects. This makes sense
+			because the compiler at this point doesn't need to
+			maintain a lot of state. However, some of the helper
+			functions such as <tt>map</tt> and <tt>concat</tt> take
+			advantage of the fact that arguments are call by value
+			and simply mutate their arguments instead of creating a
+			new variables.
+		</p>
+
+		<script src="src/main.js">
+			# Utilities
+			def last list:
+				list.(list.length-1);
+
+			def map list fcn: {
+				set i = 0;
+				while (i < list.length) {
+					set item = list.(i);
+					set list.(i) = fcn item;
+					set i = i + 1;
+				};
+				list;
+			};
+
+			def join list sep: {
+				set i   = 0;
+				set str = "";
+				while (i < list.length) {
+					set str = str + list.(i);
+					if ((i+1) < list.length)
+						set str = str + sep;
+					set i = i + 1;
+				};
+				str;
+			};
+
+			def escape str: {
+				set out = "";
+				set i = 0;
+				while (i < str.length) {
+					if (str.(i) == "\\" ||
+					    str.(i) == "\"") {
+						set out = out + "\\";
+					};
+					set out = out + str.(i);
+					set i = i + 1;
+				};
+				out;
+			};
+
+			def concat a b: {
+				set i = 0;
+				while (i < b.length) {
+					set a.(a.length) = b.(i);
+					set i = i + 1;
+				};
+				a;
+			};
+
+			def idents ast: {
+				set ids = match ast with
+					| Type type body -> idents body
+					| List items     -> join (map items idents) ","
+					| Var  name      -> [name]
+					| _              -> []
+				;
+				print "  idents:" ast "->" ids;
+				ids;
+			};
+
+			# Compiler
+			def compile ast partial: {
+				def rec ast:
+					compile ast partial;
+
+				print "  compile:" partial ast;
+
+				# Compiler helpers
+				def do_seq body: {
+					set comps = map body rec;
+					join comps ",\n";
+				};
+
+				def do_index obj idx: {
+					set comps = map idx as i:
+						"[" + (rec i) + "]";
+					set idxs = join comps "";
+					"(" + (rec obj) + ")" + idxs;
+				};
+
+				def do_type type body: {
+					set comps = map body rec;
+					set types = ["\"" + type + "\""];
+					set full  = concat types comps;
+					"[" + (join full ", ") + "]";
+				};
+
+				def do_list items: {
+					set comps = map items rec;
+					"[" + (join comps ", ") + "]";
+				};
+
+				def do_hash items: {
+					set comps = map items as item:
+						item.0 + ": " + (rec item.1);
+					"{" + (join comps ", ") + "}";
+				};
+
+				def do_call fcn args: {
+					set comps = map args rec;
+					"(" + (rec fcn) + ")(" + (join comps ", ") + ")";
+				};
+
+				def do_fun parm body: {
+					set parms = join parm ",";
+					set bodys = rec body;
+					"function (" + parms + ") {\n" +
+						"\treturn " + bodys + ";\n" +
+					"};";
+				};
+
+				def do_set name val:
+					"var " + name + " = " + (rec val) + ";";
+
+				def do_upd name val:
+					(rec name) + " = " + (rec val) + ";";
+
+				def do_match val body: {
+					set cases = map body as item: {
+						set ptrn = (compile item.0 true);
+						set vars = idents item.0;
+						set body = (rec item.1);
+						"["+ptrn+", function("+vars+"){" +
+							"return " + body + ";" +
+						"}]";
+					};
+					"match((" + (rec val) + "), [\n" +
+						(join cases ",\n") +
+					"])";
+				};
+
+				def do_get name:
+					if (partial)
+						"Var"
+					else
+						name;
+
+				def do_bin l op r:
+					"(" + (rec l) + ") " + op + " (" + (rec r) + ")";
+
+				def do_uny op e:
+					op + " (" + (rec e) + ")";
+
+
+				# Compiler main
+				set out = match ast with
+					| Seq   body      -> do_seq body
+
+					| Or    x y       -> do_bin x "||" y
+					| And   x y       -> do_bin x "&&" y
+
+					| Eq    x y       -> do_bin x "==" y
+					| Ne    x y       -> do_bin x "!=" y
+
+					| Gt    x y       -> do_bin x ">"  y
+					| Lt    x y       -> do_bin x "<"  y
+					| Ge    x y       -> do_bin x ">=" y
+					| Le    x y       -> do_bin x "<=" y
+
+					| Add   x y       -> do_bin x "+"  y
+					| Sub   x y       -> do_bin x "-"  y
+
+					| Mul   x y       -> do_bin x "*"  y
+					| Div   x y       -> do_bin x "/"  y
+
+					| Pos   expr      -> do_uny "+" expr
+					| Neg   expr      -> do_uny "-" expr
+					| Not   expr      -> do_uny "!" expr
+
+					| Index obj idx   -> do_index obj idx
+					| Type  type body -> do_type  type body
+					| Call  fcn args  -> do_call  fcn args
+
+					| Fun   parm body -> do_fun   parm body
+					| Set   name val  -> do_set   name val
+					| Upd   name val  -> do_upd   name val
+					| Match val body  -> do_match val body
+
+					| List  items     -> do_list  items
+					| Hash  items     -> do_hash  items
+					| Var   name      -> do_get   name
+					| Num   num       -> num
+					| Str   str       -> "\"" + escape(str) + "\""
+				;
+			};
+
+			#set src = "a;";
+			#set src = "[1, 2];";
+			#set src = "[a: 1, b: 2];";
+			#set src = "[1, 2].1;";
+			#set src = "[1, [2,3]].1.1;";
+			#set src = "Foo 1 2;";
+			#set src = "fun x -> 1 + 2;";
+			#set src = "set x = 1;";
+			#set src = "set a.1.2 = 3;";
+			#set src = "fcn 1 2;";
+			#set src = "match 1 with\n" +
+			#	"| 1 -> \"one\""   +
+			#	"| n -> \"some\";";
+			set src = "[1, [2,3]].1.1;";
+			print "Source:" src "\n";
+
+			set ast = parse src;
+			print "Tree:" ast "\n";
+
+			print "Console:";
+			set bin = compile ast false;
+			print "\nJavascript:" bin "\n";
+		</script>
+	</body>
+</html>

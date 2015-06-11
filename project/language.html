@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>Inside Effects</title>
+		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+
+		<link href="lib/codemirror.css" rel="stylesheet" type="text/css" />
+		<link href="src/style.css" rel="stylesheet" type="text/css" />
+
+		<script type="text/javascript" src="lib/codemirror.js"></script>
+		<script type="text/javascript" src="lib/mode/javascript.js"></script>
+		<script type="text/javascript" src="lib/mode/inside.js"></script>
+		<script type="text/javascript" src="lib/ohm.js"></script>
+		<script type="text/javascript" src="lib/embed.js"></script>
+		<script type="text/javascript" src="src/lang.js"></script>
+		<script type="text/javascript" src="src/util.js"></script>
+		<script type="text/ohm-js"     src="src/gram.ohm"></script>
+	</head>
+	<body>
+		<h1>
+			Inside Effects
+		</h1>
+		<h2>
+			<a href="index.html">Intro</a>
+			<a class="cur" href="language.html">Language</a>
+			<a href="effects.html">Effects</a>
+			<a href="analysis.html">Analysis</a>
+			<a href="compiler.html">Compiler</a>
+		</h2>
+
+		<!--
+			Language basics
+			  - Basics
+			  - Control structures
+			  - Functions
+			  - Compound Types
+		-->
+		<p>
+			The "Inside" language was first implemented in
+			JavaScript using Ohm and a simple interpreter similar
+			to the interpreters for the first few assignments from
+			CS278A.
+		</p>
+			
+		<p>
+			This page serves mostly as a reference for the syntax
+			and semantics of the interpreter. All examples are
+			editable and updated in real time with the console
+			output shown at the right and the return value (if not
+			empty) shown at the end following a <tt>&gt;&gt;</tt>
+			marker.
+		</p>
+
+		<h3>Basics</h3>
+		<p>
+			Simple programs begin with a sequence of statements
+			that are executed in order and terminated with
+			semicolons.  Comments are added using the hash
+			(<tt>#</tt>) character.
+		</p>
+		<script class="split" src="src/main.js">
+			# Hello, World
+			print "hello, world";
+			print "three:" (1+2);
+			pi*10^2;
+		</script>
+
+		<h3>Assignment</h3>
+		<p>
+			Variables are assigned using the <tt>set</tt> keyword. <br />
+			Only a single variable is supported per <tt>set</tt>.
+		</p>
+		<script class="split" src="src/main.js">
+			set a = 1;
+			set b = 2;
+			print "three:" (a+b);
+		</script>
+
+		<h3>Grouping</h3>
+		<p>
+			Parenthesis are used override order of operations and
+			group expressions. Sequences of expressions can be
+			written using curly braces. Inside curly braces
+			expression must be semicolon terminated and the last
+			expression is used as the return value for the group.
+		</p>
+		<script class="split" src="src/main.js">
+			set a =  1 + 2   * 3;
+			set b = (1 + 2)  * 3;
+			set c = {1 + 2;} * 3;
+			print {
+				"Yikes!";
+				a+", "+b+", "+c;
+			};
+		</script>
+
+		<h3>Control Structures</h3>
+		<p>
+			OCaml-like matching is supported.
+		</p>
+		<script class="split" src="src/main.js">
+			match 1 with
+				| 1 -> "one"
+				| 2 -> "two"
+				| 3 -> "three"
+				| _ -> "my head hurts";
+		</script>
+		<p>
+			C-like if and else. Note that if/then/else is a single
+			expression so the semicolon is only needed at the every
+			end.
+		</p>
+		<script class="split" src="src/main.js">
+			if (1 < 2)
+				print "Well, math works"
+			else
+				print "Oh no!";
+		</script>
+		<p>
+			While loops in the interpreter are more efficient than
+			recursion because tail calls are not supported.
+		</p>
+		<script class="split" src="src/main.js">
+			set i = 1;
+			set f = 1;
+			while (i < 10) {
+				set f = f * i;
+				set i = i + 1;
+			};
+			print "!" i "=" f;
+		</script>
+
+		<h3>Functions</h3>
+		<p>
+			Anonymous functions can be assigned to variables.
+		</p>
+		<script class="split" src="src/main.js">
+			set hello = fun first last ->
+				print "Hello," first last;
+
+			hello "Andy" "Spencer";
+		</script>
+		<p>
+			Shorthand <tt>def</tt> notation is implemented as syntax
+			sugar on top of <tt>set</tt> and <tt>fun</tt>.
+		</p>
+		<script class="split" src="src/main.js">
+			def goodbye first last:
+				print "Goodbye," first last;
+
+			goodbye "Andy" "Spencer";
+		</script>
+		<p>
+			A second <tt>as</tt> notation can be useful when passing a
+			function as an argument.
+		</p>
+		<script class="split" src="src/main.js">
+			def foreach list fcn: {
+				fcn list.0;
+				fcn list.1;
+			};
+
+			foreach [ "Andy", "Spencer" ] as name:
+				print name;
+		</script>
+		<p>
+			All types of functions are closures and local
+			variables.
+		</p>
+		<script class="split" src="src/main.js">
+			set first  = "Andy";
+			set last   = "Spencer";
+			set hiandy = fun ->
+				print "Hello," first last;
+			hiandy();
+			(fun f -> f()) hiandy;
+		</script>
+		<p>
+			Recursion is supported, but is not particularly
+			efficient.
+		</p>
+		<script class="split" src="src/main.js">
+			def fact n:
+				match n with
+					| 1 -> 1
+					| _ -> n * fact (n-1);
+			print "!3" "=" (fact 3);
+			print "!5" "=" (fact 5);
+		</script>
+
+		<h3>Compound Types</h3>
+		<p>
+			Lists are defined with square braces and accessed with
+			the dot (<tt>.</tt>) operator. Expressions can be used
+			as indexes if they are surrounded by parenthesis.
+		</p>
+		<script class="split" src="src/main.js">
+			set me = [ "Andy", "Spencer" ];
+			print me.0 me.1;
+			print me.0 me.(2-1);
+		</script>
+
+		<p>
+			Records (associative arrays, or dictionaries, or objects)
+			are very similar to lists but use strings as indexes.
+			Note that unlike JavaScript, square braces are used for
+			both lists and records.
+		</p>
+		<script class="split" src="src/main.js">
+			set me = [ first: "Andy",
+			           last:  "Spencer" ];
+			print me.first me.last;
+			print me.first me.("last");
+		</script>
+
+		<p>
+			"Tagged" types similar to OCaml are also supported.
+			This is currently weakly implemented as a conversion to
+			a list.
+		</p>
+		<script class="split" src="src/main.js">
+			set me = Person "Andy" "Spencer";
+			match me with
+				| Person first last ->
+					print first last;
+			print me.1 me.2;
+		</script>
+
+	</body>
+</html>
