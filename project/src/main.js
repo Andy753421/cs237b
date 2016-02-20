@@ -1,6 +1,4 @@
 /* Globals */
-var grammar = null;
-var parser  = null;
 var output  = '';
 
 /* Print function */
@@ -95,7 +93,7 @@ function embed() {
 }
 
 /* Init */
-if (!grammar) {
+if (!this.grammar) {
 	var scripts = document.getElementsByTagName('script');
 	for (var i=0; i<scripts.length; i++) {
 		if (scripts[i].type != 'text/ohm-js')
@@ -105,7 +103,7 @@ if (!grammar) {
 	}
 }
 
-if (!parser) {
+if (!this.parser) {
 	parser = init_parser(grammar);
 }
 

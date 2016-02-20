@@ -179,5 +179,38 @@
 					| [x, y] ->
 						print ("x="+x) ("y="+y);
 		</script>
+		<p>
+			Example with infinite lists.
+		</p>
+		<script class="split" src="src/main.js">
+			def numbers: {
+				set num = 0;
+				fun -> {
+					set out = Some num;
+					set num = num + 1;
+					out;
+				};
+			};
+
+			def map iter body: fun ->
+				match iter() with
+					| Some x -> Some (body x)
+					| None   -> None;
+
+			def unpack iter: fun ->
+				match iter() with
+					| Some x -> x;
+
+			# Infinite lists
+			set infs = numbers();
+			set even = map infs
+				fun num -> num * 2;
+
+			set infs = unpack infs;
+			set even = unpack even;
+
+			print "nums:" infs() infs() infs();
+			print "even:" even() even() even();
+		</script>
 	</body>
 </html>
